@@ -12,6 +12,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent
 SKILL_ROOT = REPO_ROOT / "SKILL"
+SOURCE_IS_PACKAGED_INSTALL = "node_modules" in REPO_ROOT.parts or not (REPO_ROOT / ".git").exists()
 SKILL_DIRNAME = "meos"
 SKIP_COPY_NAMES = {
     ".git",
@@ -89,14 +90,14 @@ def ensure_repo_layout() -> list[str]:
     return missing
 
 
-def ensure_private_layout(dry_run: bool = False) -> list[Path]:
+def ensure_private_layout(skill_root: Path, dry_run: bool = False) -> list[Path]:
     targets = [
-        SKILL_ROOT / "assets" / "live",
-        SKILL_ROOT / "private" / "imported",
-        SKILL_ROOT / "private" / "raw",
-        SKILL_ROOT / "private" / "snapshots",
-        SKILL_ROOT / "evidence",
-        SKILL_ROOT / "runtime",
+        skill_root / "assets" / "live",
+        skill_root / "private" / "imported",
+        skill_root / "private" / "raw",
+        skill_root / "private" / "snapshots",
+        skill_root / "evidence",
+        skill_root / "runtime",
     ]
     created: list[Path] = []
     for target in targets:
@@ -179,6 +180,8 @@ def path_is_within_root(path: Path, root: Path) -> bool:
 def resolve_install_mode(target: InstallTarget, requested_mode: str) -> str:
     if requested_mode != "auto":
         return requested_mode
+    if SOURCE_IS_PACKAGED_INSTALL:
+        return "copy"
     if target.runtime == "openclaw":
         return "copy"
     return "symlink"
@@ -249,16 +252,21 @@ def command_install(args: argparse.Namespace) -> int:
             print(f"- {item}")
         return 1
 
-    if not args.skip_private_layout:
-        created = ensure_private_layout(dry_run=args.dry_run)
-    else:
-        created = []
+    created: list[Path] = []
+    target_created: list[Path] = []
+    if not args.skip_private_layout and not SOURCE_IS_PACKAGED_INSTALL:
+        created = ensure_private_layout(SKILL_ROOT, dry_run=args.dry_run)
     targets = resolve_targets(args)
     messages = [install_target(target, mode=args.mode, force=args.force, dry_run=args.dry_run) for target in targets]
+    if not args.skip_private_layout and not args.dry_run:
+        for target in targets:
+            if target.path.exists() and not target.path.is_symlink():
+                target_created.extend(ensure_private_layout(target.path, dry_run=False))
 
     print("MeOS install summary")
     print(f"- repository: {REPO_ROOT}")
     print(f"- skill-source: {SKILL_ROOT}")
+    print(f"- source_kind: {'packaged' if SOURCE_IS_PACKAGED_INSTALL else 'repository'}")
     print(f"- mode: {args.mode}")
     print(f"- scope: {args.scope}")
     for line in messages:
@@ -269,6 +277,12 @@ def command_install(args: argparse.Namespace) -> int:
         print("- local private layout:")
         for path in created:
             print(f"  - {path}")
+    if target_created:
+        print("- installed private layout:")
+        for path in target_created:
+            print(f"  - {path}")
+    if SOURCE_IS_PACKAGED_INSTALL and not args.skip_private_layout:
+        print("- note: packaged installs use copied runtime skill directories so mutable local assets do not live inside node_modules.")
     print("\nSuggested next prompts:\n")
     for key, value in PROMPTS["en"].items():
         print(f"{key}: {value}\n")

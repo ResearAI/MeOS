@@ -1,6 +1,6 @@
 {
   "name": "@researai/meos",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "MeOS installer wrapper for local-first skill setup across Codex, Claude Code, OpenClaw, and OpenCode.",
   "license": "MIT",
   "homepage": "https://github.com/ResearAI/MeOS",

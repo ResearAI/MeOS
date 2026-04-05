@@ -19,6 +19,7 @@
   <a href="https://github.com/ResearAI/MeOS">GitHub</a> |
   <a href="README_ZH.md">中文 README</a> |
   <a href="#quick-start">Quick Start</a> |
+  <a href="#install-and-use">Install & Use</a> |
   <a href="#runtime-setup">Runtime Setup</a> |
   <a href="#repository-layout">Repository Layout</a>
 </p>
@@ -104,20 +105,64 @@ That is where MeOS stops being an archive and starts becoming useful.
 <a id="quick-start"></a>
 ## 🚀 Quick Start
 
-### 1. Clone
+### Fastest path: install from npm
+
+```bash
+npm install -g @researai/meos
+meos install --runtime codex
+meos doctor
+```
+
+Then use it immediately:
+
+```text
+Use meos in apply mode for this task. Read only the minimum relevant assets and use them to shape reasoning, workflow, and output.
+```
+
+### Repository path: clone and install locally
 
 ```bash
 git clone https://github.com/ResearAI/MeOS.git
 cd MeOS
+bash install.sh --runtime codex
+python3 installer.py doctor
 ```
 
-### 2. Install into one runtime
+<a id="install-and-use"></a>
+## 📦 Install And Use
+
+### Install from npm
+
+This is the recommended path if you just want to use MeOS:
+
+```bash
+npm install -g @researai/meos
+```
+
+Core commands:
+
+| Command | What it does |
+|---|---|
+| `meos install --runtime codex` | install MeOS into Codex |
+| `meos install --runtime claude` | install MeOS into Claude Code |
+| `meos install --runtime openclaw --force` | install MeOS into OpenClaw |
+| `meos install --runtime opencode` | install MeOS into OpenCode |
+| `meos doctor` | check repository and target install paths |
+| `meos print-prompts --lang en` | print suggested init / refresh / apply prompts |
+| `meos print-prompts --lang zh` | print the same prompts in Chinese |
+
+### Install from the repository
+
+Use this if you want to work on MeOS itself:
 
 The installer does not publish the whole repository.
 It installs the contents of `./SKILL/` into the runtime skill directory `meos/`.
 
 `--mode auto` is the default.
-It uses a runtime-safe install strategy: `copy` for OpenClaw, `symlink` for the other runtimes.
+It uses a runtime-safe install strategy:
+
+- packaged installs from npm default to `copy`, so mutable local assets do not live inside `node_modules`
+- local repository installs default to `copy` for OpenClaw and `symlink` for the other runtimes
 
 | Runtime | Recommended command | Note |
 |---|---|---|
@@ -139,24 +184,40 @@ For local development of this repository:
 npm install -g .
 ```
 
-### 3. Use it immediately
+### Common install targets
+
+| Runtime | Recommended command | Note |
+|---|---|---|
+| Codex | `meos install --runtime codex` | simplest path for local skill use |
+| Claude Code | `meos install --runtime claude` | use lowercase `meos` skill dir |
+| OpenClaw | `meos install --runtime openclaw --force` | prefers copied skill directories |
+| OpenCode | `meos install --runtime opencode` | install into one compatible path only |
+
+If you are replacing an older install instead of doing a first install, add `--force`.
+
+### Use MeOS in a real task
+
+The three core usage modes are:
+
+| Mode | When to use it | Prompt |
+|---|---|---|
+| `init` | build the first asset set | `Use meos in init mode. Build the first sanitized operating-layer assets from the available local source material.` |
+| `refresh` | update existing assets | `Use meos in refresh mode. Refresh the existing MeOS assets from new local material and only promote stable rules.` |
+| `apply` | use existing assets during work | `Use meos in apply mode for this task. Read only the minimum relevant assets and write back only stable new information.` |
+
+### Runtime-specific usage examples
+
+Codex:
 
 ```text
 Use meos in apply mode for this task. Read only the minimum relevant assets and use them to shape reasoning, workflow, and output.
 ```
 
-Useful prompts:
+Claude Code:
 
 ```text
-Use meos in init mode. Build the first sanitized operating-layer assets from the available local source material.
-```
-
-```text
-Use meos in refresh mode. Refresh the existing MeOS assets from new local material and only promote stable rules.
-```
-
-```text
-Use meos in apply mode for this task. Read only the minimum relevant assets and write back only stable new information.
+/meos
+Apply MeOS for this task. Read only the minimum relevant assets and use them to shape reasoning, workflow, and output.
 ```
 
 <a id="runtime-setup"></a>

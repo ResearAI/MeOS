@@ -19,6 +19,7 @@
   <a href="https://github.com/ResearAI/MeOS">GitHub</a> |
   <a href="README.md">English README</a> |
   <a href="#quick-start">快速开始</a> |
+  <a href="#install-and-use">安装与使用</a> |
   <a href="#runtime-setup">运行时配置</a> |
   <a href="#repository-layout">仓库结构</a>
 </p>
@@ -104,20 +105,64 @@ MeOS 关注的是中间那层更长期、更稳定的“操作层”。
 <a id="quick-start"></a>
 ## 🚀 Quick Start
 
-### 1. 克隆仓库
+### 最快路径：直接从 npm 安装
+
+```bash
+npm install -g @researai/meos
+meos install --runtime codex
+meos doctor
+```
+
+然后直接开始用：
+
+```text
+Use meos in apply mode for this task. Read only the minimum relevant assets and use them to shape reasoning, workflow, and output.
+```
+
+### 仓库开发路径：clone 后本地安装
 
 ```bash
 git clone https://github.com/ResearAI/MeOS.git
 cd MeOS
+bash install.sh --runtime codex
+python3 installer.py doctor
 ```
 
-### 2. 安装到一个运行时
+<a id="install-and-use"></a>
+## 📦 安装与使用
+
+### 从 npm 安装
+
+如果你只是想直接使用 MeOS，推荐这一条：
+
+```bash
+npm install -g @researai/meos
+```
+
+核心命令：
+
+| 命令 | 作用 |
+|---|---|
+| `meos install --runtime codex` | 安装到 Codex |
+| `meos install --runtime claude` | 安装到 Claude Code |
+| `meos install --runtime openclaw --force` | 安装到 OpenClaw |
+| `meos install --runtime opencode` | 安装到 OpenCode |
+| `meos doctor` | 检查仓库和安装目标路径 |
+| `meos print-prompts --lang en` | 打印英文 init / refresh / apply prompt |
+| `meos print-prompts --lang zh` | 打印中文 init / refresh / apply prompt |
+
+### 从仓库安装
+
+如果你要开发 MeOS 自己，再走这一条：
 
 安装器不会把整个仓库塞进运行时。  
 它真正安装的是 `./SKILL/` 的内容，目标目录是运行时里的 `meos/`。
 
 默认模式是 `--mode auto`。  
-它会用更安全的运行时策略：OpenClaw 用 `copy`，其他运行时默认 `symlink`。
+它会用更安全的运行时策略：
+
+- 从 npm 安装的打包版本会默认使用 `copy`，避免把可变本地资产写进 `node_modules`
+- 从本地仓库安装时，OpenClaw 默认用 `copy`，其他运行时默认 `symlink`
 
 | 运行时 | 推荐命令 | 说明 |
 |---|---|---|
@@ -139,24 +184,40 @@ meos install --runtime codex
 npm install -g .
 ```
 
-### 3. 直接开始用
+### 常见安装目标
+
+| 运行时 | 推荐命令 | 说明 |
+|---|---|---|
+| Codex | `meos install --runtime codex` | 最简单的本地 skill 使用路径 |
+| Claude Code | `meos install --runtime claude` | 注意 skill 目录名必须是小写 `meos` |
+| OpenClaw | `meos install --runtime openclaw --force` | 更推荐复制目录 |
+| OpenCode | `meos install --runtime opencode` | 只安装到一个兼容路径即可 |
+
+如果你是在替换旧安装而不是第一次安装，请加 `--force`。
+
+### 在真实任务中使用 MeOS
+
+三种核心模式：
+
+| 模式 | 什么时候用 | Prompt |
+|---|---|---|
+| `init` | 建第一版资产 | `Use meos in init mode. Build the first sanitized operating-layer assets from the available local source material.` |
+| `refresh` | 更新已有资产 | `Use meos in refresh mode. Refresh the existing MeOS assets from new local material and only promote stable rules.` |
+| `apply` | 在工作中使用资产 | `Use meos in apply mode for this task. Read only the minimum relevant assets and write back only stable new information.` |
+
+### 按运行时的使用示例
+
+Codex：
 
 ```text
 Use meos in apply mode for this task. Read only the minimum relevant assets and use them to shape reasoning, workflow, and output.
 ```
 
-常用 prompt：
+Claude Code：
 
 ```text
-Use meos in init mode. Build the first sanitized operating-layer assets from the available local source material.
-```
-
-```text
-Use meos in refresh mode. Refresh the existing MeOS assets from new local material and only promote stable rules.
-```
-
-```text
-Use meos in apply mode for this task. Read only the minimum relevant assets and write back only stable new information.
+/meos
+Apply MeOS for this task. Read only the minimum relevant assets and use them to shape reasoning, workflow, and output.
 ```
 
 <a id="runtime-setup"></a>
