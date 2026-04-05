@@ -129,8 +129,14 @@ It uses a runtime-safe install strategy: `copy` for OpenClaw, `symlink` for the 
 You can also use the npm wrapper:
 
 ```bash
-npm install -g .
+npm install -g @researai/meos
 meos install --runtime codex
+```
+
+For local development of this repository:
+
+```bash
+npm install -g .
 ```
 
 ### 3. Use it immediately

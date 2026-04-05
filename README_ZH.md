@@ -129,8 +129,14 @@ cd MeOS
 也可以使用 npm 包装器：
 
 ```bash
-npm install -g .
+npm install -g @researai/meos
 meos install --runtime codex
+```
+
+如果你是在本地开发当前仓库，也可以这样装：
+
+```bash
+npm install -g .
 ```
 
 ### 3. 直接开始用

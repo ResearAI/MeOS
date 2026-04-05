@@ -1,11 +1,35 @@
 {
-  "name": "meos-skill",
+  "name": "@researai/meos",
   "version": "0.1.0",
-  "private": true,
   "description": "MeOS installer wrapper for local-first skill setup across Codex, Claude Code, OpenClaw, and OpenCode.",
   "license": "MIT",
+  "homepage": "https://github.com/ResearAI/MeOS",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ResearAI/MeOS.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ResearAI/MeOS/issues"
+  },
+  "keywords": [
+    "agent-skill",
+    "codex",
+    "claude-code",
+    "openclaw",
+    "opencode",
+    "local-first",
+    "alignment",
+    "prompting"
+  ],
   "bin": {
     "meos": "bin/meos.js"
+  },
+  "scripts": {
+    "prepack": "python3 -m py_compile installer.py",
+    "release:check": "python3 -m py_compile installer.py && npm pack --dry-run"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "files": [
     "README.md",
