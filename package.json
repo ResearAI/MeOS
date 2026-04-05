@@ -9,12 +9,12 @@
   },
   "files": [
     "README.md",
+    "README_ZH.md",
     "LICENSE",
     "install.sh",
     "installer.py",
     "bin/",
     "SKILL/",
-    "docs/",
     "assets/branding/",
     "assets/readme/"
   ],

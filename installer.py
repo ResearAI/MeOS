@@ -84,7 +84,6 @@ def ensure_repo_layout() -> list[str]:
         SKILL_ROOT / "references",
         SKILL_ROOT / "schemas",
         SKILL_ROOT / "assets",
-        REPO_ROOT / "docs",
     ]
     missing = [str(path) for path in required if not path.exists()]
     return missing

@@ -18,9 +18,9 @@
 <p align="center">
   <a href="https://github.com/ResearAI/MeOS">GitHub</a> |
   <a href="README.md">English README</a> |
-  <a href="docs/zh/README.md">中文文档</a> |
   <a href="#quick-start">快速开始</a> |
-  <a href="#important-docs">重要文档</a>
+  <a href="#runtime-setup">运行时配置</a> |
+  <a href="#repository-layout">仓库结构</a>
 </p>
 
 <p align="center">
@@ -40,8 +40,8 @@
 <p align="center">
   <a href="#what-you-actually-get">能得到什么</a> •
   <a href="#how-meos-works">工作方式</a> •
-  <a href="#privacy-boundary">隐私边界</a> •
-  <a href="#repository-layout">仓库结构</a>
+  <a href="#promotion-and-privacy-rules">晋升与隐私规则</a> •
+  <a href="#key-skill-references">关键 Skill 参考</a>
 </p>
 
 ![MeOS overview](assets/readme/00-overview.svg)
@@ -77,6 +77,7 @@ MeOS 关注的是中间那层更长期、更稳定的“操作层”。
 
 > 不只是记住这个人，而是让这个人变得可复用
 
+<a id="what-you-actually-get"></a>
 ## 🧩 你实际会得到什么
 
 | 资产类型 | 例子 | 改善什么 |
@@ -88,6 +89,7 @@ MeOS 关注的是中间那层更长期、更稳定的“操作层”。
 | `✍️` 纠偏规则 | 明确 override、历史否定过的东西 | 减少重复偏航 |
 | `📚` 知识资产 | 稳定事实、领域理解、可复用经验 | 超出单次聊天的上下文积累 |
 
+<a id="how-meos-works"></a>
 ## ⚙️ MeOS 如何工作
 
 | 模式 | 目的 | 先读什么 | 会写回什么 |
@@ -99,20 +101,7 @@ MeOS 关注的是中间那层更长期、更稳定的“操作层”。
 `apply` 是最关键的模式。  
 这也是 MeOS 从“档案”变成“真正有用”的地方。
 
-## 🗂 `apply` 模式下 agent 会读什么
-
-下面这些路径都相对于安装后的 skill 根目录。  
-在当前仓库里，它们实际位于 `SKILL/` 下。
-
-| 任务类型 | 优先读什么 | 会带来什么 |
-|---|---|---|
-| `🛠` 技术实现 | `assets/live/work/`、`assets/live/thought-style/`、`assets/live/workflow/`、`assets/live/principles/` | 更贴近你的技术标准和执行顺序 |
-| `🎨` UI / 产品 | `assets/live/taste/`、`assets/live/work/`、`assets/live/workflow/`、`assets/live/corrections/` | 更贴近你的审美和呈现要求 |
-| `🔬` 研究 / 写作 | `assets/live/work/`、`assets/live/thought-style/`、`assets/live/principles/`、`assets/live/knowledge/`、`assets/live/workflow/` | 更贴近你的结构、推理和知识组织方式 |
-| `💬` 风格敏感回复 | `assets/live/preferences/`、`assets/live/corrections/` | 更贴近你的表达形态和措辞习惯 |
-
-如果 `assets/live/corrections/` 和其他层冲突，以 correction 为准。
-
+<a id="quick-start"></a>
 ## 🚀 Quick Start
 
 ### 1. 克隆仓库
@@ -164,14 +153,175 @@ Use meos in refresh mode. Refresh the existing MeOS assets from new local materi
 Use meos in apply mode for this task. Read only the minimum relevant assets and write back only stable new information.
 ```
 
-## 🔒 隐私边界
+<a id="runtime-setup"></a>
+## 🖥 运行时配置
 
-这一层拆分是 MeOS 最重要的设计之一。
+### Codex
+
+Codex 支持 `.agents/skills/` 和 `~/.agents/skills/` 这类 skill 目录。
+
+手工安装：
+
+```bash
+mkdir -p ~/.agents/skills
+ln -s /path/to/MeOS/SKILL ~/.agents/skills/meos
+```
+
+Codex 可以显式通过名字触发 MeOS，也可以通过 skill 的 `description` 隐式选择它。
+
+### Claude Code
+
+Claude Code 支持 `~/.claude/skills/<skill-name>/SKILL.md` 和 `.claude/skills/<skill-name>/SKILL.md`。
+
+手工安装：
+
+```bash
+mkdir -p ~/.claude/skills
+ln -s /path/to/MeOS/SKILL ~/.claude/skills/meos
+```
+
+常见用法：
+
+```text
+/meos
+Apply MeOS for this task. Read only the minimum relevant assets and use them to shape reasoning, workflow, and output.
+```
+
+### Claude Code + MiniMax
+
+如果你要让 Claude Code 走 MiniMax 的 Anthropic 兼容端点，本地 `~/.claude/settings.json` 可以这样写：
+
+```json
+{
+  "env": {
+    "ANTHROPIC_BASE_URL": "https://api.minimaxi.com/anthropic",
+    "ANTHROPIC_AUTH_TOKEN": "${MINIMAX_API_KEY}",
+    "API_TIMEOUT_MS": "3000000",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1"
+  }
+}
+```
+
+验证：
+
+```bash
+claude -p --model MiniMax-M2.7 'Respond with exactly CLAUDE_MINIMAX_OK.'
+```
+
+### OpenClaw
+
+OpenClaw 支持 `~/.openclaw/skills`、`~/.agents/skills`、`<workspace>/.agents/skills` 和 `<workspace>/skills`。
+
+手动测试确认过的关键行为：
+
+- OpenClaw 会跳过真实路径逃离配置根目录的 symlink skill
+- 外部 symlink 安装并不稳
+- 最稳妥的是把 `meos` 作为真实目录复制到 `<workspace>/skills/meos` 或 `~/.openclaw/skills/meos`
+
+推荐手工安装：
+
+```bash
+mkdir -p <workspace>/skills
+cp -a /path/to/MeOS/SKILL <workspace>/skills/meos
+```
+
+验证：
+
+```bash
+openclaw skills info meos
+openclaw skills list | rg meos
+```
+
+### OpenCode
+
+OpenCode 会搜索多个兼容 skill 目录：
+
+- `.opencode/skills/<name>/SKILL.md`
+- `~/.config/opencode/skills/<name>/SKILL.md`
+- `.claude/skills/<name>/SKILL.md`
+- `~/.claude/skills/<name>/SKILL.md`
+- `.agents/skills/<name>/SKILL.md`
+- `~/.agents/skills/<name>/SKILL.md`
+
+只选一个路径安装即可：
+
+```bash
+mkdir -p ~/.config/opencode/skills
+ln -s /path/to/MeOS/SKILL ~/.config/opencode/skills/meos
+```
+
+如果你的 provider 或代理不支持 OpenCode 默认用来生成标题的副模型，请显式设置 `small_model`：
+
+```json
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "openai/gpt-5.4",
+  "small_model": "openai/gpt-5.4"
+}
+```
+
+验证：
+
+```bash
+opencode run --model openai/gpt-5.4 --format json \
+  'Use meos in apply mode for this task. Reply with exactly OPENCODE_SKILL_OK.'
+```
+
+## 🗂 `apply` 模式下 agent 会读什么
+
+下面这些路径都相对于安装后的 skill 根目录。  
+在当前仓库里，它们实际位于 `SKILL/` 下。
+
+| 任务类型 | 优先读什么 | 会带来什么 |
+|---|---|---|
+| `🛠` 技术实现 | `assets/live/work/`、`assets/live/thought-style/`、`assets/live/workflow/`、`assets/live/principles/` | 更贴近你的技术标准和执行顺序 |
+| `🎨` UI / 产品 | `assets/live/taste/`、`assets/live/work/`、`assets/live/workflow/`、`assets/live/corrections/` | 更贴近你的审美和呈现要求 |
+| `🔬` 研究 / 写作 | `assets/live/work/`、`assets/live/thought-style/`、`assets/live/principles/`、`assets/live/knowledge/`、`assets/live/workflow/` | 更贴近你的结构、推理和知识组织方式 |
+| `💬` 风格敏感回复 | `assets/live/preferences/`、`assets/live/corrections/` | 更贴近你的表达形态和措辞习惯 |
+
+如果 `assets/live/corrections/` 和其他层冲突，以 correction 为准。
+
+<a id="promotion-and-privacy-rules"></a>
+## 🔒 晋升与隐私规则
+
+### 晋升流程
+
+1. 收集本地材料
+2. 判断来源类型
+3. 提取高信号候选事实
+4. 不确定内容先放到 `evidence/`
+5. 只有稳定规则才晋升到 `assets/live/`
+
+适合晋升的情况：
+
+- 用户明确说过
+- 在多个上下文里重复出现
+- 被用户明确纠正或强化过
+
+只该留在 `evidence/` 的情况：
+
+- 一次性行为
+- 噪声较大
+- 过度依赖上下文
+- 太敏感
+
+### 维护生命周期
+
+MeOS 的维护动作应该是：
+
+- add
+- merge
+- downgrade
+- discard
+
+重点不是堆越来越多 prompt，而是让资产层保持干净、可维护。
+
+### 隐私边界
 
 | 可公开内容 | 默认保留在本地 |
 |---|---|
 | `README.md` | `SKILL/private/` |
-| `docs/` | `SKILL/evidence/` |
+| `README_ZH.md` | `SKILL/evidence/` |
 | `assets/branding/` | `SKILL/runtime/` |
 | `assets/readme/` | `SKILL/assets/live/` |
 | `SKILL/references/` | 原始导入材料 |
@@ -179,15 +329,18 @@ Use meos in apply mode for this task. Read only the minimum relevant assets and 
 | `SKILL/assets/templates/` | 工作站本地备注 |
 | `SKILL/assets/examples/` | 私有原始对话 |
 
-基本规则：
+不要提交：
 
-- 不要提交 secrets、tokens 或私有原始对话
-- 不要把一次性行为直接晋升成长期资产
-- 不要把 evidence 和正式资产混为一谈
-- 不要把没必要的个人标识写进可复用文件
+- token
+- API key
+- 个人身份标识
+- 原始 connector id
+- 不必要的私有路径
+- 私有原始对话
 
 ![MeOS privacy boundary](assets/readme/03-privacy-boundary.svg)
 
+<a id="repository-layout"></a>
 ## 🏗 仓库结构
 
 ```text
@@ -195,7 +348,6 @@ MeOS/
 ├── README.md
 ├── README_ZH.md
 ├── LICENSE
-├── docs/
 ├── assets/
 │   ├── branding/
 │   └── readme/
@@ -223,16 +375,18 @@ MeOS/
 - 安装器负责把 `SKILL/` 安装进运行时 skill 目录
 - 本地 owner 校准层保留在 `SKILL/assets/live/`、`SKILL/evidence/`、`SKILL/private/` 和 `SKILL/runtime/`
 
-## 📎 重要文档
+<a id="key-skill-references"></a>
+## 📌 关键 Skill 参考
 
-最值得先看的几个文档：
+`SKILL/` 里最值得先看的文件是：
 
-- [快速开始](docs/zh/00_QUICK_START.md)
-- [如何应用 MeOS](docs/zh/10_APPLYING_MEOS.md)
-- [安装方式](docs/zh/11_INSTALLATION.md)
-- [OpenClaw 配置](docs/zh/08_OPENCLAW_SETUP.md)
-- [OpenCode 配置](docs/zh/09_OPENCODE_SETUP.md)
-- [Claude Code + MiniMax](docs/zh/12_CLAUDE_CODE_MINIMAX.md)
+- [SKILL/SKILL.md](SKILL/SKILL.md)
+- [SKILL/references/source-locations.md](SKILL/references/source-locations.md)
+- [SKILL/references/extraction-sop.md](SKILL/references/extraction-sop.md)
+- [SKILL/references/promotion-policy.md](SKILL/references/promotion-policy.md)
+- [SKILL/references/privacy-policy.md](SKILL/references/privacy-policy.md)
+- [SKILL/references/writeback-policy.md](SKILL/references/writeback-policy.md)
+- [SKILL/references/apply-task-map.md](SKILL/references/apply-task-map.md)
 
 ## 🛤 当前方向
 
