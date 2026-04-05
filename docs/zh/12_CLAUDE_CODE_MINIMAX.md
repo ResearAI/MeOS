@@ -16,7 +16,7 @@
 
 ```bash
 mkdir -p ~/.claude/skills
-ln -s /path/to/MeOS ~/.claude/skills/meos
+ln -s /path/to/MeOS/SKILL ~/.claude/skills/meos
 ```
 
 然后在 `~/.claude/settings.json` 中配置 MiniMax 的 Anthropic 兼容端点：

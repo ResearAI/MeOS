@@ -18,14 +18,14 @@ Install into a lowercase directory named `meos`.
 
 ```bash
 mkdir -p ~/.claude/skills
-ln -s /path/to/MeOS ~/.claude/skills/meos
+ln -s /path/to/MeOS/SKILL ~/.claude/skills/meos
 ```
 
 ### Project-local
 
 ```bash
 mkdir -p .claude/skills
-ln -s /path/to/MeOS .claude/skills/meos
+ln -s /path/to/MeOS/SKILL .claude/skills/meos
 ```
 
 Claude also supports nested project discovery under subdirectories.

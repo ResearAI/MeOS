@@ -21,17 +21,17 @@ Codex 支持两种使用方式：
 
 ```bash
 mkdir -p ~/.agents/skills
-ln -s /path/to/MeOS ~/.agents/skills/meos
+ln -s /path/to/MeOS/SKILL ~/.agents/skills/meos
 ```
 
 ### 仓库级
 
 ```bash
 mkdir -p .agents/skills
-ln -s /path/to/MeOS .agents/skills/meos
+ln -s /path/to/MeOS/SKILL .agents/skills/meos
 ```
 
-如果不方便用软链接，也可以复制到一个名为 `meos` 的目录中。
+如果不方便用软链接，也可以把 `MeOS/SKILL` 的内容复制到一个名为 `meos` 的目录中。
 
 ## 如何使用
 

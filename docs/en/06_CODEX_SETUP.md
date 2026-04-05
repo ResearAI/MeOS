@@ -21,17 +21,17 @@ Because the skill name is `meos`, install it into a lowercase directory:
 
 ```bash
 mkdir -p ~/.agents/skills
-ln -s /path/to/MeOS ~/.agents/skills/meos
+ln -s /path/to/MeOS/SKILL ~/.agents/skills/meos
 ```
 
 ### Repo-local
 
 ```bash
 mkdir -p .agents/skills
-ln -s /path/to/MeOS .agents/skills/meos
+ln -s /path/to/MeOS/SKILL .agents/skills/meos
 ```
 
-If symlinks are inconvenient, copy the repository contents into a folder named `meos`.
+If symlinks are inconvenient, copy the contents of `MeOS/SKILL` into a folder named `meos`.
 
 ## How to use
 

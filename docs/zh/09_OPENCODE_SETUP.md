@@ -36,21 +36,21 @@ OpenCode 要求：
 
 ```bash
 mkdir -p ~/.config/opencode/skills
-ln -s /path/to/MeOS ~/.config/opencode/skills/meos
+ln -s /path/to/MeOS/SKILL ~/.config/opencode/skills/meos
 ```
 
 ### Claude 兼容目录
 
 ```bash
 mkdir -p ~/.claude/skills
-ln -s /path/to/MeOS ~/.claude/skills/meos
+ln -s /path/to/MeOS/SKILL ~/.claude/skills/meos
 ```
 
 ### Agent 兼容目录
 
 ```bash
 mkdir -p ~/.agents/skills
-ln -s /path/to/MeOS ~/.agents/skills/meos
+ln -s /path/to/MeOS/SKILL ~/.agents/skills/meos
 ```
 
 ## Provider 兼容性说明

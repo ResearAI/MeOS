@@ -9,7 +9,7 @@
   <text x="160" y="320" font-size="26" fill="#4F5B6D" font-family="Arial, sans-serif">Public Core</text>
   <text x="510" y="320" font-size="26" fill="#4F5B6D" font-family="Arial, sans-serif">Evidence Layer</text>
   <text x="860" y="320" font-size="26" fill="#4F5B6D" font-family="Arial, sans-serif">Live Assets</text>
-  <text x="160" y="360" font-size="18" fill="#6F6F6F" font-family="Arial, sans-serif">SKILL.md · references · schemas</text>
+  <text x="160" y="360" font-size="18" fill="#6F6F6F" font-family="Arial, sans-serif">SKILL/SKILL.md · references · schemas</text>
   <text x="510" y="360" font-size="18" fill="#6F6F6F" font-family="Arial, sans-serif">candidate facts · conflicts · source map</text>
   <text x="860" y="360" font-size="18" fill="#6F6F6F" font-family="Arial, sans-serif">promoted operating-layer assets</text>
 </svg>

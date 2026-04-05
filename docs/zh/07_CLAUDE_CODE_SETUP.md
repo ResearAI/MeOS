@@ -18,14 +18,14 @@ Claude 会根据 `description` 自动触发 skill，也可以通过 `/<skill-nam
 
 ```bash
 mkdir -p ~/.claude/skills
-ln -s /path/to/MeOS ~/.claude/skills/meos
+ln -s /path/to/MeOS/SKILL ~/.claude/skills/meos
 ```
 
 ### 项目级
 
 ```bash
 mkdir -p .claude/skills
-ln -s /path/to/MeOS .claude/skills/meos
+ln -s /path/to/MeOS/SKILL .claude/skills/meos
 ```
 
 ## 如何使用

@@ -12,30 +12,30 @@ It helps you turn long-term working patterns into:
 
 ## What to do first
 
-1. Read [`SKILL.md`](../../SKILL.md)
-2. Read [`references/source-locations.md`](../../references/source-locations.md)
-3. Read [`references/extraction-sop.md`](../../references/extraction-sop.md)
-4. Read [`references/privacy-policy.md`](../../references/privacy-policy.md)
+1. Read [`SKILL/SKILL.md`](../../SKILL/SKILL.md)
+2. Read [`SKILL/references/source-locations.md`](../../SKILL/references/source-locations.md)
+3. Read [`SKILL/references/extraction-sop.md`](../../SKILL/references/extraction-sop.md)
+4. Read [`SKILL/references/privacy-policy.md`](../../SKILL/references/privacy-policy.md)
 
 ## Where to put things
 
 - public method and templates:
-  - `references/`
-  - `schemas/`
-  - `assets/templates/`
-  - `assets/examples/`
+  - `SKILL/references/`
+  - `SKILL/schemas/`
+  - `SKILL/assets/templates/`
+  - `SKILL/assets/examples/`
 - private local material:
-  - `private/`
-  - `evidence/`
-  - `runtime/`
-  - `assets/live/`
+  - `SKILL/private/`
+  - `SKILL/evidence/`
+  - `SKILL/runtime/`
+  - `SKILL/assets/live/`
 
 ## First recommended workflow
 
 1. keep your raw material local
 2. inspect the templates
 3. inspect the examples
-4. create or update `assets/live/` only after promotion rules are satisfied
+4. create or update `SKILL/assets/live/` only after promotion rules are satisfied
 
 ## What not to do
 

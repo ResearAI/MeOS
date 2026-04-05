@@ -14,7 +14,7 @@ It also supports watcher-based auto-refresh for changed `SKILL.md` files.
 ## Important behavior from manual testing
 
 - OpenClaw skips symlinked skill roots whose resolved realpath escapes the configured root.
-- In practice, `ln -s /path/to/MeOS ~/.openclaw/skills/meos` is not reliable.
+- In practice, `ln -s /path/to/MeOS/SKILL ~/.openclaw/skills/meos` is not reliable.
 - The safest install is a real copied directory under `<workspace>/skills/meos` or `~/.openclaw/skills/meos`.
 - If you create a new profile or agent, auth is isolated. A skill can be visible while model auth is still missing.
 
@@ -26,14 +26,14 @@ Install into a lowercase directory named `meos`.
 
 ```bash
 mkdir -p <workspace>/skills
-cp -a /path/to/MeOS <workspace>/skills/meos
+cp -a /path/to/MeOS/SKILL <workspace>/skills/meos
 ```
 
 ### Shared managed copy
 
 ```bash
 mkdir -p ~/.openclaw/skills
-cp -a /path/to/MeOS ~/.openclaw/skills/meos
+cp -a /path/to/MeOS/SKILL ~/.openclaw/skills/meos
 ```
 
 ### External shared skill root
@@ -70,7 +70,7 @@ This is a tested pattern that does not depend on your main OpenClaw profile:
 
 ```bash
 mkdir -p /tmp/openclaw-meos-test/skills
-cp -a /path/to/MeOS /tmp/openclaw-meos-test/skills/meos
+cp -a /path/to/MeOS/SKILL /tmp/openclaw-meos-test/skills/meos
 
 export CUSTOM_API_KEY=your_minimaxi_or_other_compatible_key
 

@@ -14,7 +14,7 @@ OpenClaw 支持的主要技能目录包括：
 ## 手动测试后确认的重要行为
 
 - OpenClaw 会跳过“真实路径跑到根目录之外”的 symlink skill。
-- 实际上，`ln -s /path/to/MeOS ~/.openclaw/skills/meos` 这类装法并不稳。
+- 实际上，`ln -s /path/to/MeOS/SKILL ~/.openclaw/skills/meos` 这类装法并不稳。
 - 最稳妥的是把 MeOS 作为真实目录复制到 `<workspace>/skills/meos` 或 `~/.openclaw/skills/meos`。
 - 即使 skill 已经可见，新的 profile 或 agent 仍然可能因为缺少模型 auth 而无法真正跑回合。
 
@@ -26,14 +26,14 @@ OpenClaw 支持的主要技能目录包括：
 
 ```bash
 mkdir -p <workspace>/skills
-cp -a /path/to/MeOS <workspace>/skills/meos
+cp -a /path/to/MeOS/SKILL <workspace>/skills/meos
 ```
 
 ### 共享 managed copy
 
 ```bash
 mkdir -p ~/.openclaw/skills
-cp -a /path/to/MeOS ~/.openclaw/skills/meos
+cp -a /path/to/MeOS/SKILL ~/.openclaw/skills/meos
 ```
 
 ### 外部共享 skill 根目录
@@ -70,7 +70,7 @@ openclaw agent --local --agent main --json \
 
 ```bash
 mkdir -p /tmp/openclaw-meos-test/skills
-cp -a /path/to/MeOS /tmp/openclaw-meos-test/skills/meos
+cp -a /path/to/MeOS/SKILL /tmp/openclaw-meos-test/skills/meos
 
 export CUSTOM_API_KEY=your_minimaxi_or_other_compatible_key
 

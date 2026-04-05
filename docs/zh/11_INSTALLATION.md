@@ -17,6 +17,7 @@ bash install.sh --runtime codex
 
 - 默认模式是 `--mode auto`
 - `auto` 会对 OpenClaw 使用 `copy`，对其它运行时使用 `symlink`
+- 安装器实际发布的是 `./SKILL/` 里的内容
 - 可以安装 `--runtime all`，但更推荐按运行时分别安装
 
 常用参数：
@@ -64,6 +65,7 @@ meos print-prompts --lang zh
 - 安装到运行时时，目录名建议统一使用小写 `meos`
 - `install` 默认会创建本地私有层目录，除非使用 `--skip-private-layout`
 - `doctor` 会检查仓库布局和目标安装位置
+- 仓库根目录并不是运行时 skill 根目录；真正安装出去的是 `SKILL/`
 - OpenClaw 通常应使用 `copy` 模式，因为它会跳过真实路径跑到根目录外的 symlink skill
 - OpenCode 通常只应选择一个兼容目录安装，否则会出现 duplicate warning
 - 如果你要把旧的 symlink 安装替换成 copy 安装，请加 `--force`

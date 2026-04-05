@@ -1,12 +1,12 @@
 # Private raw imports and local-only derived material
-private/*
-!private/README.md
-evidence/*
-!evidence/README.md
-runtime/*
-!runtime/README.md
-assets/live/*
-!assets/live/README.md
+SKILL/private/*
+!SKILL/private/README.md
+SKILL/evidence/*
+!SKILL/evidence/README.md
+SKILL/runtime/*
+!SKILL/runtime/README.md
+SKILL/assets/live/*
+!SKILL/assets/live/README.md
 
 # Python / editor noise
 __pycache__/

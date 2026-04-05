@@ -5,6 +5,9 @@
 MeOS should not only create or refresh assets.
 Its real value is applying those assets in future tasks.
 
+Paths below are relative to the installed skill root.
+Inside this repository they live under `SKILL/`.
+
 ## What `apply` should do
 
 When MeOS is used in `apply` mode, the agent should:

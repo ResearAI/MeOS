@@ -16,7 +16,7 @@ Install MeOS first:
 
 ```bash
 mkdir -p ~/.claude/skills
-ln -s /path/to/MeOS ~/.claude/skills/meos
+ln -s /path/to/MeOS/SKILL ~/.claude/skills/meos
 ```
 
 Then configure Claude Code to use the MiniMax Anthropic-compatible endpoint in `~/.claude/settings.json`:

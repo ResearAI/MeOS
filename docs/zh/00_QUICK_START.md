@@ -14,30 +14,30 @@ MeOS 是一个本地优先的个人工作资产 skill 仓库。
 
 ## 第一步该做什么
 
-1. 阅读 [`SKILL.md`](../../SKILL.md)
-2. 阅读 [`references/source-locations.md`](../../references/source-locations.md)
-3. 阅读 [`references/extraction-sop.md`](../../references/extraction-sop.md)
-4. 阅读 [`references/privacy-policy.md`](../../references/privacy-policy.md)
+1. 阅读 [`SKILL/SKILL.md`](../../SKILL/SKILL.md)
+2. 阅读 [`SKILL/references/source-locations.md`](../../SKILL/references/source-locations.md)
+3. 阅读 [`SKILL/references/extraction-sop.md`](../../SKILL/references/extraction-sop.md)
+4. 阅读 [`SKILL/references/privacy-policy.md`](../../SKILL/references/privacy-policy.md)
 
 ## 目录怎么用
 
 - 公开方法层：
-  - `references/`
-  - `schemas/`
-  - `assets/templates/`
-  - `assets/examples/`
+  - `SKILL/references/`
+  - `SKILL/schemas/`
+  - `SKILL/assets/templates/`
+  - `SKILL/assets/examples/`
 - 本地私有层：
-  - `private/`
-  - `evidence/`
-  - `runtime/`
-  - `assets/live/`
+  - `SKILL/private/`
+  - `SKILL/evidence/`
+  - `SKILL/runtime/`
+  - `SKILL/assets/live/`
 
 ## 推荐的第一次使用流程
 
 1. 原始材料先放本地
 2. 先看模板
 3. 再看示例
-4. 满足晋升条件后，再写入 `assets/live/`
+4. 满足晋升条件后，再写入 `SKILL/assets/live/`
 
 ## 不该做什么
 

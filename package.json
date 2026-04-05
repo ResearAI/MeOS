@@ -8,19 +8,15 @@
     "meos": "bin/meos.js"
   },
   "files": [
-    "SKILL.md",
     "README.md",
     "LICENSE",
     "install.sh",
     "installer.py",
     "bin/",
-    "references/",
-    "schemas/",
+    "SKILL/",
     "docs/",
     "assets/branding/",
-    "assets/readme/",
-    "assets/templates/",
-    "assets/examples/"
+    "assets/readme/"
   ],
   "engines": {
     "node": ">=18"

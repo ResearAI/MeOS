@@ -17,6 +17,7 @@ Important defaults:
 
 - `--mode auto` is the default
 - `auto` uses `copy` for OpenClaw and `symlink` for the other runtimes
+- the installer publishes the contents of `./SKILL/` into the runtime skill directory
 - installing `--runtime all` is possible, but explicit per-runtime installs are cleaner
 
 Useful flags:
@@ -64,6 +65,7 @@ meos print-prompts --lang zh
 - The installed skill directory name should be lowercase: `meos`
 - `install` creates local private directories by default unless `--skip-private-layout` is used
 - `doctor` checks repository layout and target install locations
+- the repository root is not the runtime skill root; `SKILL/` is
 - OpenClaw should usually use `copy` mode, because external symlink roots are skipped
 - OpenCode should usually use one compatible skill directory only, otherwise duplicate warnings are expected
 - If you are replacing an older symlink install with a copied install, add `--force`

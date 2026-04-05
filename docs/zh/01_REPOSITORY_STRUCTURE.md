@@ -4,34 +4,41 @@
 
 ```text
 MeOS/
-├── SKILL.md
 ├── README.md
 ├── docs/
-├── references/
-├── schemas/
 ├── assets/
-│   ├── templates/
-│   ├── examples/
-│   └── live/
-├── evidence/
-├── runtime/
-└── private/
+│   ├── branding/
+│   └── readme/
+├── SKILL/
+│   ├── SKILL.md
+│   ├── references/
+│   ├── schemas/
+│   ├── assets/
+│   │   ├── templates/
+│   │   ├── examples/
+│   │   └── live/
+│   ├── evidence/
+│   ├── runtime/
+│   └── private/
+├── installer.py
+├── install.sh
+└── package.json
 ```
 
 ## 可公开层
 
-- `SKILL.md`
-- `references/`
-- `schemas/`
-- `assets/templates/`
-- `assets/examples/`
+- `SKILL/SKILL.md`
+- `SKILL/references/`
+- `SKILL/schemas/`
+- `SKILL/assets/templates/`
+- `SKILL/assets/examples/`
 - `docs/`
 
 ## 本地优先层
 
-- `assets/live/`
-- `evidence/`
-- `runtime/`
-- `private/`
+- `SKILL/assets/live/`
+- `SKILL/evidence/`
+- `SKILL/runtime/`
+- `SKILL/private/`
 
 这样划分的目的，是把“方法框架”公开出去，而不是把你的私有原始材料一起公开。

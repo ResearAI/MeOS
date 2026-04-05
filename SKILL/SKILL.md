@@ -82,7 +82,7 @@ It is what makes MeOS useful in later tasks instead of becoming an archive-only 
 
 1. Read only the minimum relevant files under `assets/`
 2. Read `references/writeback-policy.md` before writing back any new durable update
-3. Read `docs/en/10_APPLYING_MEOS.md` or `docs/zh/10_APPLYING_MEOS.md` when you need the task-to-asset mapping
+3. Read `references/apply-task-map.md` when you need the task-to-asset mapping
 
 ## Promotion rule
 

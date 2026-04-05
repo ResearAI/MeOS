@@ -8,37 +8,36 @@
 </p>
 
 <p align="center">
-  It helps agents learn how you work across Codex, Claude Code, OpenClaw, and OpenCode, without turning private raw history into a public leak.
+  It helps agents learn how you work across Codex, Claude Code, OpenCode, and OpenClaw, while keeping private raw history local by default.
 </p>
 
 <p align="center">
+  <a href="https://github.com/ResearAI/MeOS">GitHub</a> |
   <a href="docs/en/README.md">English Docs</a> |
   <a href="docs/zh/README.md">中文文档</a> |
   <a href="#quick-start">Quick Start</a> |
-  <a href="#how-meos-works">How It Works</a> |
-  <a href="#verified-runtimes">Verified Runtimes</a> |
-  <a href="#privacy-boundary">Privacy Boundary</a>
+  <a href="#important-docs">Important Docs</a>
 </p>
 
 <p align="center">
-  <img alt="License MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge" />
+  <a href="https://github.com/ResearAI/MeOS"><img alt="GitHub stars" src="https://img.shields.io/github/stars/ResearAI/MeOS?style=for-the-badge&logo=github"></a>
+  <a href="LICENSE"><img alt="License MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge"></a>
   <img alt="Format Agent Skill" src="https://img.shields.io/badge/Format-Agent%20Skill-green?style=for-the-badge" />
   <img alt="Scope local-first" src="https://img.shields.io/badge/Scope-local--first-blue?style=for-the-badge" />
-  <img alt="Mode privacy-aware" src="https://img.shields.io/badge/Mode-privacy--aware-purple?style=for-the-badge" />
 </p>
 
 <p align="center">
   <strong>Apply, not just store</strong> ·
-  <strong>Public core, private local layer</strong> ·
+  <strong>Public repository, private local layer</strong> ·
   <strong>Editable assets, not black-box memory</strong> ·
-  <strong>Works across multiple agent runtimes</strong>
+  <strong>One installer for multiple runtimes</strong>
 </p>
 
 <p align="center">
-  <a href="#quick-start">Quick Start</a> •
   <a href="#what-you-actually-get">What You Get</a> •
-  <a href="#verified-runtimes">Runtime Status</a> •
-  <a href="#important-docs">Important Docs</a>
+  <a href="#how-meos-works">How It Works</a> •
+  <a href="#privacy-boundary">Privacy Boundary</a> •
+  <a href="#repository-layout">Repository Layout</a>
 </p>
 
 ![MeOS overview](assets/readme/00-overview.svg)
@@ -47,7 +46,9 @@ MeOS is not a memory dump.
 It is not a roleplay profile pack.  
 It is not just a pile of prompts.
 
-It is a file-first system for turning a person's stable way of working into assets that future agents can actually use.
+It is a file-first system for making a person reusable to future agents.
+
+Supports Codex, Claude Code, OpenCode, and OpenClaw.
 
 If you are tired of repeating the same standards, the same taste, and the same corrections in every new agent session, MeOS is the layer that turns that repetition into reusable local assets.
 
@@ -96,6 +97,9 @@ That is where MeOS stops being an archive and starts becoming useful.
 
 ## 🗂 What The Agent Reads In `apply` Mode
 
+Paths below are relative to the installed skill root.
+Inside this repository, they live under `SKILL/`.
+
 | Task type | Read first | Outcome |
 |---|---|---|
 | `🛠` Technical implementation | `assets/live/work/`, `assets/live/thought-style/`, `assets/live/workflow/`, `assets/live/principles/` | follows your technical standards and execution order |
@@ -110,14 +114,17 @@ If `assets/live/corrections/` conflicts with another layer, correction wins.
 ### 1. Clone
 
 ```bash
-git clone <your-meos-repo-url>
+git clone https://github.com/ResearAI/MeOS.git
 cd MeOS
 ```
 
 ### 2. Install into one runtime
 
+The installer does not publish the whole repository.
+It installs the contents of `./SKILL/` into the runtime skill directory `meos/`.
+
 `--mode auto` is the default.
-It uses a runtime-safe install strategy: `copy` for OpenClaw, `symlink` for the others.
+It uses a runtime-safe install strategy: `copy` for OpenClaw, `symlink` for the other runtimes.
 
 | Runtime | Recommended command | Note |
 |---|---|---|
@@ -153,28 +160,20 @@ Use meos in refresh mode. Refresh the existing MeOS assets from new local materi
 Use meos in apply mode for this task. Read only the minimum relevant assets and write back only stable new information.
 ```
 
-## ✅ Verified Runtimes
-
-Manual verification completed on 2026-04-04.
-
-| Runtime | Status | What was verified | Important note |
-|---|---|---|---|
-| Codex | `✅ verified` | MeOS was discovered and used in an `apply` task | standard skill install works |
-| Claude Code | `✅ verified` | MeOS was discovered and used via `/meos` | separate MiniMax guide is available |
-| OpenClaw | `✅ verified` | MeOS was loaded from a workspace copy and completed an `apply` turn | avoid external symlink installs |
-| OpenCode | `✅ verified` | MeOS was loaded through the `skill` tool and completed a turn | `small_model` may need explicit config |
-
 ## 🔒 Privacy Boundary
 
 This split is one of the most important parts of MeOS.
 
 | Safe to publish | Keep local by default |
 |---|---|
-| `🌐 SKILL.md` | `🔒 private/` |
-| `🌐 references/` | `🔒 evidence/` |
-| `🌐 schemas/` | `🔒 runtime/` |
-| `🌐 assets/templates/` | `🔒 assets/live/` |
-| `🌐 assets/examples/` | `🔒 raw imported material` |
+| `README.md` | `SKILL/private/` |
+| `docs/` | `SKILL/evidence/` |
+| `assets/branding/` | `SKILL/runtime/` |
+| `assets/readme/` | `SKILL/assets/live/` |
+| `SKILL/references/` | raw imported material |
+| `SKILL/schemas/` | secrets and tokens |
+| `SKILL/assets/templates/` | workstation-specific notes |
+| `SKILL/assets/examples/` | private raw transcripts |
 
 Rules:
 
@@ -189,28 +188,35 @@ Rules:
 
 ```text
 MeOS/
-├── SKILL.md
 ├── README.md
 ├── LICENSE
-├── references/
-├── schemas/
+├── docs/
 ├── assets/
 │   ├── branding/
-│   ├── readme/
-│   ├── templates/
-│   ├── examples/
-│   └── live/         # local-only by default
-├── evidence/         # local-only by default
-├── runtime/          # local-only by default
-└── private/          # local-only by default
+│   └── readme/
+├── SKILL/
+│   ├── SKILL.md
+│   ├── references/
+│   ├── schemas/
+│   ├── assets/
+│   │   ├── templates/
+│   │   ├── examples/
+│   │   └── live/
+│   ├── evidence/
+│   ├── runtime/
+│   └── private/
+├── install.sh
+├── installer.py
+├── package.json
+└── bin/
 ```
 
 The important pattern is:
 
-- public method in `references/`, `schemas/`, `assets/templates/`, `assets/examples/`
-- real owner calibration in `assets/live/`
-- weak or conflicting facts in `evidence/`
-- raw imported history in `private/`
+- public project materials stay at the repository root
+- everything the runtime skill needs lives under `SKILL/`
+- the installer publishes `SKILL/` into runtime skill directories
+- local-only owner calibration stays in `SKILL/assets/live/`, `SKILL/evidence/`, `SKILL/private/`, and `SKILL/runtime/`
 
 ## 📎 Important Docs
 
@@ -227,11 +233,11 @@ Only a few docs are worth opening first:
 
 MeOS already has:
 
-- a cross-tool `SKILL.md`
+- a cross-tool `SKILL/` package layout
 - extraction, promotion, privacy, and writeback references
 - JSON schemas for durable entries
 - example and template asset trees
-- verified install and load paths for four runtimes
+- installer paths for Codex, Claude Code, OpenCode, and OpenClaw
 
 The next step is not "add more prompt text".
 It is to keep improving the assets, examples, and public presentation without leaking private local history.

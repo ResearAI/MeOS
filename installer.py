@@ -11,6 +11,7 @@ from pathlib import Path
 
 
 REPO_ROOT = Path(__file__).resolve().parent
+SKILL_ROOT = REPO_ROOT / "SKILL"
 SKILL_DIRNAME = "meos"
 SKIP_COPY_NAMES = {
     ".git",
@@ -78,11 +79,11 @@ def parse_args() -> argparse.Namespace:
 
 def ensure_repo_layout() -> list[str]:
     required = [
-        REPO_ROOT / "SKILL.md",
+        SKILL_ROOT / "SKILL.md",
         REPO_ROOT / "README.md",
-        REPO_ROOT / "references",
-        REPO_ROOT / "schemas",
-        REPO_ROOT / "assets",
+        SKILL_ROOT / "references",
+        SKILL_ROOT / "schemas",
+        SKILL_ROOT / "assets",
         REPO_ROOT / "docs",
     ]
     missing = [str(path) for path in required if not path.exists()]
@@ -91,12 +92,12 @@ def ensure_repo_layout() -> list[str]:
 
 def ensure_private_layout(dry_run: bool = False) -> list[Path]:
     targets = [
-        REPO_ROOT / "assets" / "live",
-        REPO_ROOT / "private" / "imported",
-        REPO_ROOT / "private" / "raw",
-        REPO_ROOT / "private" / "snapshots",
-        REPO_ROOT / "evidence",
-        REPO_ROOT / "runtime",
+        SKILL_ROOT / "assets" / "live",
+        SKILL_ROOT / "private" / "imported",
+        SKILL_ROOT / "private" / "raw",
+        SKILL_ROOT / "private" / "snapshots",
+        SKILL_ROOT / "evidence",
+        SKILL_ROOT / "runtime",
     ]
     created: list[Path] = []
     for target in targets:
@@ -220,7 +221,7 @@ def install_target(target: InstallTarget, *, mode: str, force: bool, dry_run: bo
     actual_mode = resolve_install_mode(target, mode)
     target.path.parent.mkdir(parents=True, exist_ok=True) if not dry_run else None
     if target.path.exists() or target.path.is_symlink():
-        if target.path.is_symlink() and target.path.resolve() == REPO_ROOT.resolve():
+        if target.path.is_symlink() and target.path.resolve() == SKILL_ROOT.resolve():
             if actual_mode == "symlink":
                 return f"[skip] {target.runtime}: already linked at {target.path}"
             if not force:
@@ -235,9 +236,9 @@ def install_target(target: InstallTarget, *, mode: str, force: bool, dry_run: bo
     if dry_run:
         return f"[dry-run] {target.runtime}: would {actual_mode} install to {target.path}"
     if actual_mode == "symlink":
-        os.symlink(REPO_ROOT, target.path, target_is_directory=True)
+        os.symlink(SKILL_ROOT, target.path, target_is_directory=True)
     else:
-        copy_repo(REPO_ROOT, target.path)
+        copy_repo(SKILL_ROOT, target.path)
     return f"[ok] {target.runtime}: installed to {target.path} using {actual_mode}"
 
 
@@ -257,7 +258,8 @@ def command_install(args: argparse.Namespace) -> int:
     messages = [install_target(target, mode=args.mode, force=args.force, dry_run=args.dry_run) for target in targets]
 
     print("MeOS install summary")
-    print(f"- source: {REPO_ROOT}")
+    print(f"- repository: {REPO_ROOT}")
+    print(f"- skill-source: {SKILL_ROOT}")
     print(f"- mode: {args.mode}")
     print(f"- scope: {args.scope}")
     for line in messages:
@@ -287,6 +289,7 @@ def command_doctor(args: argparse.Namespace) -> int:
     ))
     print("MeOS doctor")
     print(f"- repository: {REPO_ROOT}")
+    print(f"- skill-source: {SKILL_ROOT}")
     print(f"- repository_layout_ok: {not missing}")
     if missing:
         for item in missing:
