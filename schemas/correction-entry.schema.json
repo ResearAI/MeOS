@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MeOS Correction Entry",
+  "type": "object",
+  "required": [
+    "id",
+    "target",
+    "old_claim",
+    "new_claim",
+    "reason",
+    "created_at"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "target": {
+      "type": "string"
+    },
+    "old_claim": {
+      "type": "string"
+    },
+    "new_claim": {
+      "type": "string"
+    },
+    "reason": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true
+}

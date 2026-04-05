@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 640" role="img" aria-label="MeOS overview placeholder">
+  <rect width="1200" height="640" fill="#F7F2EA"/>
+  <rect x="70" y="70" width="1060" height="500" rx="28" fill="#FFFFFF" stroke="#D6CEC1" stroke-width="3"/>
+  <text x="120" y="150" font-size="44" fill="#4F5B6D" font-family="Arial, sans-serif">MeOS Overview</text>
+  <text x="120" y="205" font-size="24" fill="#7A7A7A" font-family="Arial, sans-serif">Public core + local private layer + extraction and promotion flow</text>
+  <rect x="120" y="260" width="260" height="180" rx="22" fill="#ECE4D8"/>
+  <rect x="470" y="260" width="260" height="180" rx="22" fill="#E8EEDF"/>
+  <rect x="820" y="260" width="260" height="180" rx="22" fill="#E5E9F2"/>
+  <text x="160" y="320" font-size="26" fill="#4F5B6D" font-family="Arial, sans-serif">Public Core</text>
+  <text x="510" y="320" font-size="26" fill="#4F5B6D" font-family="Arial, sans-serif">Evidence Layer</text>
+  <text x="860" y="320" font-size="26" fill="#4F5B6D" font-family="Arial, sans-serif">Live Assets</text>
+  <text x="160" y="360" font-size="18" fill="#6F6F6F" font-family="Arial, sans-serif">SKILL.md · references · schemas</text>
+  <text x="510" y="360" font-size="18" fill="#6F6F6F" font-family="Arial, sans-serif">candidate facts · conflicts · source map</text>
+  <text x="860" y="360" font-size="18" fill="#6F6F6F" font-family="Arial, sans-serif">promoted operating-layer assets</text>
+</svg>

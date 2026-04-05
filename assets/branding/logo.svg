@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="MeOS logo">
+  <rect width="256" height="256" rx="52" fill="#F3EEE8"/>
+  <circle cx="128" cy="128" r="78" fill="#D8D0C6"/>
+  <path d="M78 162V94h18l32 36 32-36h18v68h-22v-34l-28 31-28-31v34H78z" fill="#5E687A"/>
+</svg>

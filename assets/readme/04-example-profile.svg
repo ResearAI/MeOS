@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" role="img" aria-label="MeOS example profile placeholder">
+  <rect width="1200" height="560" fill="#F7F2EA"/>
+  <text x="80" y="110" font-size="40" fill="#4F5B6D" font-family="Arial, sans-serif">Example Profile</text>
+  <text x="80" y="170" font-size="22" fill="#7A7A7A" font-family="Arial, sans-serif">Sanitized example assets for engineering, research, and product styles</text>
+</svg>

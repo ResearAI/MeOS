@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 360" role="img" aria-label="MeOS lifecycle placeholder">
+  <rect width="1200" height="360" fill="#F7F2EA"/>
+  <text x="80" y="90" font-size="40" fill="#4F5B6D" font-family="Arial, sans-serif">Lifecycle</text>
+  <g font-family="Arial, sans-serif" fill="#4F5B6D">
+    <rect x="80" y="150" width="180" height="90" rx="18" fill="#ECE4D8"/><text x="128" y="205" font-size="24">Collect</text>
+    <rect x="300" y="150" width="180" height="90" rx="18" fill="#E8EEDF"/><text x="352" y="205" font-size="24">Extract</text>
+    <rect x="520" y="150" width="180" height="90" rx="18" fill="#E5E9F2"/><text x="565" y="205" font-size="24">Promote</text>
+    <rect x="740" y="150" width="180" height="90" rx="18" fill="#ECE4D8"/><text x="792" y="205" font-size="24">Apply</text>
+    <rect x="960" y="150" width="180" height="90" rx="18" fill="#E8EEDF"/><text x="1000" y="205" font-size="24">Refresh</text>
+  </g>
+</svg>

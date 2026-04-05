@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 480" role="img" aria-label="MeOS privacy boundary placeholder">
+  <rect width="1200" height="480" fill="#F7F2EA"/>
+  <rect x="100" y="120" width="430" height="240" rx="22" fill="#E8EEDF"/>
+  <rect x="670" y="120" width="430" height="240" rx="22" fill="#ECE4D8"/>
+  <text x="220" y="190" font-size="34" fill="#4F5B6D" font-family="Arial, sans-serif">Public Core</text>
+  <text x="790" y="190" font-size="34" fill="#4F5B6D" font-family="Arial, sans-serif">Local Only</text>
+</svg>

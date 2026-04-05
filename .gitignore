@@ -1,0 +1,20 @@
+# Private raw imports and local-only derived material
+private/*
+!private/README.md
+evidence/*
+!evidence/README.md
+runtime/*
+!runtime/README.md
+assets/live/*
+!assets/live/README.md
+
+# Python / editor noise
+__pycache__/
+.pytest_cache/
+*.pyc
+*.pyo
+*.swp
+*.swo
+.DS_Store
+.codex
+.codex/
