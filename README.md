@@ -12,9 +12,13 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/ResearAI/MeOS">https://github.com/ResearAI/MeOS</a>
+</p>
+
+<p align="center">
   <a href="https://github.com/ResearAI/MeOS">GitHub</a> |
   <a href="docs/en/README.md">English Docs</a> |
-  <a href="docs/zh/README.md">中文文档</a> |
+  <a href="README_ZH.md">中文 README</a> |
   <a href="#quick-start">Quick Start</a> |
   <a href="#important-docs">Important Docs</a>
 </p>
