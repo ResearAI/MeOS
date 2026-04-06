@@ -4,11 +4,7 @@
 </h1>
 
 <p align="center">
-  MeOS 是一个本地优先的操作层，用来把你的工作流、技术标准、偏好和纠偏规则整理成可复用的 agent 资产。
-</p>
-
-<p align="center">
-  它让 Codex、Claude Code、OpenCode 和 OpenClaw 更像“学会了你怎么工作”，同时默认把私有原始历史保留在本地。
+  <strong>把你自己 Fork 成一个 Skill，让 agents 更懂你。</strong>
 </p>
 
 <p align="center">

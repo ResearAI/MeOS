@@ -4,11 +4,7 @@
 </h1>
 
 <p align="center">
-  MeOS is a local-first operating layer for turning your workflows, standards, preferences, and corrections into reusable agent assets.
-</p>
-
-<p align="center">
-  It helps agents learn how you work across Codex, Claude Code, OpenCode, and OpenClaw, while keeping private raw history local by default.
+  <strong>Fork yourself as a Skill, so agents understand you better.</strong>
 </p>
 
 <p align="center">

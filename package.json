@@ -1,7 +1,7 @@
 {
   "name": "@researai/meos",
   "version": "0.1.1",
-  "description": "MeOS installer wrapper for local-first skill setup across Codex, Claude Code, OpenClaw, and OpenCode.",
+  "description": "Fork yourself as a Skill, so agents understand you better.",
   "license": "MIT",
   "homepage": "https://github.com/ResearAI/MeOS",
   "repository": {
