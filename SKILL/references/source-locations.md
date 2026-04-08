@@ -17,6 +17,21 @@ Use this file to decide where MeOS may read from.
 - local project documentation
 - local correction notes
 
+## Person-graph signal priority
+
+When building owner-centric claims, prefer sources with the highest signal about the owner as an individual.
+
+Prefer, in order:
+
+1. explicit self-description
+2. explicit corrections and reversals
+3. repeated choices or repeated rejections
+4. long-running project and decision history
+5. assistant-visible repeated behavior with clear evidence
+
+Do not optimize for transcript volume.
+Optimize for stable owner signal.
+
 ## Recommended source families
 
 ### A. Codex-style local sessions
@@ -30,6 +45,7 @@ Use these mainly for:
 - direct user instructions
 - durable preference and correction signals
 - accepted or rejected answer patterns
+- stable tone and structure preferences when reinforced repeatedly
 
 ### B. Claude Code local history
 
@@ -44,6 +60,7 @@ Use these mainly for:
 - structured audit expectations
 - implementation and verification habits
 - full `user` / `assistant` transcript pairs when available in project session logs
+- repeated collaboration style patterns
 
 ### C. DeepScientist quest history
 
@@ -64,6 +81,7 @@ Use these mainly for:
 - continuation and interruption behavior
 - what kinds of progress updates the owner accepts or rejects
 - paper and experiment evidence-management habits
+- long-horizon interest and role signals
 
 ## Reading rule
 
@@ -81,6 +99,7 @@ When transcript pairs are available, distinguish:
 - what the user asked for
 - how the assistant responded
 - whether the user accepted, corrected, or redirected that response
+- what that pattern reveals about the owner's preferences, principles, and working style
 
 over:
 

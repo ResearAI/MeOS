@@ -12,12 +12,15 @@ MeOS should preserve reusable working knowledge without leaking unnecessary priv
 - personal contact ids
 - workstation-specific private paths when a semantic path is enough
 - copied private messages that are not required for the reusable rule
+- intimate personal details that do not change future collaboration
+- speculative personality labels that are not grounded in collaboration-relevant evidence
 
 ## Safe defaults
 
 - prefer semantic labels over personal identifiers
 - prefer relative paths over personal absolute paths when possible
 - prefer summarized evidence over raw sensitive content
+- prefer behavioral claims over invasive personal interpretation
 
 ## Commit boundary
 

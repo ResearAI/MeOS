@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MeOS Person Graph",
+  "type": "object",
+  "required": [
+    "owner_id",
+    "generated_at",
+    "claims"
+  ],
+  "properties": {
+    "owner_id": {
+      "type": "string"
+    },
+    "generated_at": {
+      "type": "string"
+    },
+    "metadata": {
+      "type": "object"
+    },
+    "claims": {
+      "type": "array",
+      "items": {
+        "$ref": "claim-entry.schema.json"
+      }
+    },
+    "nodes": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    }
+  },
+  "additionalProperties": true
+}

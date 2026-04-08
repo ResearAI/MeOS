@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MeOS Claim Entry",
+  "type": "object",
+  "required": [
+    "id",
+    "subject",
+    "dimension",
+    "predicate",
+    "object",
+    "scope",
+    "explicitness",
+    "stability",
+    "confidence",
+    "evidence_ids",
+    "first_seen",
+    "last_seen"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "subject": {
+      "type": "string"
+    },
+    "dimension": {
+      "type": "string",
+      "enum": [
+        "role",
+        "interest",
+        "preference",
+        "behavior",
+        "workflow",
+        "principle",
+        "constraint",
+        "knowledge",
+        "taste"
+      ]
+    },
+    "predicate": {
+      "type": "string"
+    },
+    "object": {
+      "type": "string"
+    },
+    "scope": {
+      "type": "string"
+    },
+    "explicitness": {
+      "type": "string",
+      "enum": [
+        "explicit",
+        "inferred"
+      ]
+    },
+    "stability": {
+      "type": "string",
+      "enum": [
+        "weak",
+        "candidate",
+        "stable"
+      ]
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "evidence_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "first_seen": {
+      "type": "string"
+    },
+    "last_seen": {
+      "type": "string"
+    },
+    "conflicts_with": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": true
+}

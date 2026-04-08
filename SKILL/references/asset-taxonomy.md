@@ -45,3 +45,13 @@ Promote into:
 - `knowledge/` when the rule is factual or procedural background
 - `preferences/` when the rule is mainly about style or favored presentation
 - `corrections/` when the user explicitly overrides prior understanding
+
+## Complementary graph rule
+
+Assets are the human-readable durable layer.
+
+Person-graph claims are the structured complementary layer:
+
+- claims live in `evidence/`
+- graph projections live in `runtime/graph/`
+- assets remain the canonical prose representation when prose is useful

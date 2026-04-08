@@ -4,7 +4,11 @@
 </h1>
 
 <p align="center">
-  <strong>把你自己 Fork 成一个 Skill，让 agents 更懂你。</strong>
+  <strong>把你自己 Fork 成一个 Skill，让 agents 更懂你的个性、偏好和做事方式。</strong>
+</p>
+
+<p align="center">
+  <strong>核心目的：让 Agent 更懂你的个性、偏好、习惯与工作方式。</strong>
 </p>
 
 <p align="center">
@@ -47,11 +51,11 @@ MeOS 不是 memory dump。
 不是角色扮演 prompt 包。  
 也不是一堆零散提示词。
 
-它是一个文件优先的系统，用来把“一个人的稳定工作方式”沉淀成未来 agent 真能用起来的资产。
+它是一个文件优先的系统，用来把“一个人的个性、偏好与稳定工作方式”沉淀成未来 agent 真能用起来的资产。
 
 支持 Codex、Claude Code、OpenCode 和 OpenClaw。
 
-如果你已经厌倦了在每个新 agent 会话里重复解释同一套标准、同一种审美、同一类纠偏规则，MeOS 就是把这些重复劳动变成长期本地资产的那一层。
+如果你已经厌倦了在每个新 agent 会话里重复解释同一套标准、同样的偏好、同一种审美、同一类纠偏规则，MeOS 就是把这些重复劳动变成长期本地资产的那一层。
 
 ## ✨ 为什么是 MeOS
 
@@ -146,6 +150,102 @@ npm install -g @researai/meos
 | `meos doctor` | 检查仓库和安装目标路径 |
 | `meos print-prompts --lang en` | 打印英文 init / refresh / apply prompt |
 | `meos print-prompts --lang zh` | 打印中文 init / refresh / apply prompt |
+| `meos graph build` | 把 `claims.jsonl` 编译成 graph JSON、alignment packet 和自包含 HTML 预览页 |
+| `meos graph serve` | 重新生成预览并默认在 `http://127.0.0.1:20998/` 本地提供访问 |
+
+### 本地图预览
+
+当你想把本地 person-graph claims 变成一个可查看页面时，按下面步骤做。
+
+Step 1. 准备本地 claim ledger。
+
+如果你正在当前仓库里操作，文件放在：
+
+```text
+./SKILL/evidence/claims.jsonl
+```
+
+文件必须是 JSONL。
+也就是每一行都是一个 JSON 对象。
+
+最小示例：
+
+```jsonl
+{"id":"claim_001","subject":"owner","dimension":"preference","predicate":"prefers","object":"concise_actionable_output","scope":"task_family:coding","explicitness":"explicit","stability":"stable","confidence":0.96,"evidence_ids":["ev_01"],"first_seen":"2026-04-09","last_seen":"2026-04-09"}
+{"id":"claim_002","subject":"owner","dimension":"workflow","predicate":"uses_workflow","object":"inspect_then_patch_then_verify","scope":"task_family:coding","explicitness":"inferred","stability":"stable","confidence":0.84,"evidence_ids":["ev_02"],"first_seen":"2026-04-09","last_seen":"2026-04-09"}
+{"id":"claim_003","subject":"owner","dimension":"constraint","predicate":"avoids","object":"long_prefatory_explanations","scope":"global","explicitness":"explicit","stability":"stable","confidence":0.99,"evidence_ids":["ev_03"],"first_seen":"2026-04-09","last_seen":"2026-04-09"}
+```
+
+Step 2. 生成 graph 产物。
+
+```bash
+meos graph build
+```
+
+会生成：
+
+- `SKILL/runtime/graph/owner-graph.json`
+- `SKILL/runtime/graph/alignment-packet.json`
+- `SKILL/runtime/graph/owner-graph.html`
+- `SKILL/runtime/graph/index.html`
+
+同时终端会打印：
+
+- 自动识别到的 skill root
+- claims 源文件路径
+- 生成出的 HTML 文件路径
+- 下一步预览命令
+- 本地预览 URL
+
+Step 3. 启动本地预览服务。
+
+```bash
+meos graph serve
+```
+
+默认会启动在：
+
+```text
+http://127.0.0.1:20998/
+```
+
+Step 4. 在浏览器打开页面。
+
+打开：
+
+```text
+http://127.0.0.1:20998/
+```
+
+页面里会有：
+
+- owner-centric graph 视图
+- dimension 和 stability 过滤器
+- claim / scope 搜索
+- 编译出来的 alignment packet
+- 可检查的原始 claim 列表
+
+Step 5. 停止预览服务。
+
+在运行 `meos graph serve` 的终端里按 `Ctrl+C`。
+
+Step 6. 不起服务时的兜底查看方式。
+
+生成出的 HTML 是自包含的，所以也可以直接打开：
+
+```text
+SKILL/runtime/graph/owner-graph.html
+```
+
+Step 7. 没有 claims 时会发生什么。
+
+如果 `SKILL/evidence/claims.jsonl` 还不存在，`meos graph build` 仍然会生成一个空的预览壳页面，并在终端明确提示当前没有 claim ledger。
+
+如果你想指定 host 或 port：
+
+```bash
+meos graph serve --host 127.0.0.1 --port 20998
+```
 
 ### 从仓库安装
 

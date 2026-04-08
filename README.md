@@ -4,7 +4,11 @@
 </h1>
 
 <p align="center">
-  <strong>Fork yourself as a Skill, so agents understand you better.</strong>
+  <strong>Fork yourself as a Skill, so agents understand your personality, preferences, and way of working.</strong>
+</p>
+
+<p align="center">
+  <strong>Core goal: help agents understand who you are, what you prefer, and how you like to work.</strong>
 </p>
 
 <p align="center">
@@ -47,11 +51,11 @@ MeOS is not a memory dump.
 It is not a roleplay profile pack.  
 It is not just a pile of prompts.
 
-It is a file-first system for making a person reusable to future agents.
+It is a file-first system for making your personality, preferences, and stable operating style legible and reusable to future agents.
 
 Supports Codex, Claude Code, OpenCode, and OpenClaw.
 
-If you are tired of repeating the same standards, the same taste, and the same corrections in every new agent session, MeOS is the layer that turns that repetition into reusable local assets.
+If you are tired of repeating the same standards, the same preferences, the same taste, and the same corrections in every new agent session, MeOS is the layer that turns that repetition into reusable local assets.
 
 ## ✨ Why MeOS
 
@@ -146,6 +150,100 @@ Core commands:
 | `meos doctor` | check repository and target install paths |
 | `meos print-prompts --lang en` | print suggested init / refresh / apply prompts |
 | `meos print-prompts --lang zh` | print the same prompts in Chinese |
+| `meos graph build` | compile `claims.jsonl` into graph JSON, alignment packet, and a self-contained HTML preview |
+| `meos graph serve` | rebuild the preview and serve it locally at `http://127.0.0.1:20998/` by default |
+
+### Local graph preview
+
+Use this when you want to turn local person-graph claims into a visible page.
+
+Step 1. Prepare a local claim ledger.
+
+If you are working in this repository, put the file at:
+
+```text
+./SKILL/evidence/claims.jsonl
+```
+
+Each line must be one JSON object.
+A minimal example:
+
+```jsonl
+{"id":"claim_001","subject":"owner","dimension":"preference","predicate":"prefers","object":"concise_actionable_output","scope":"task_family:coding","explicitness":"explicit","stability":"stable","confidence":0.96,"evidence_ids":["ev_01"],"first_seen":"2026-04-09","last_seen":"2026-04-09"}
+{"id":"claim_002","subject":"owner","dimension":"workflow","predicate":"uses_workflow","object":"inspect_then_patch_then_verify","scope":"task_family:coding","explicitness":"inferred","stability":"stable","confidence":0.84,"evidence_ids":["ev_02"],"first_seen":"2026-04-09","last_seen":"2026-04-09"}
+{"id":"claim_003","subject":"owner","dimension":"constraint","predicate":"avoids","object":"long_prefatory_explanations","scope":"global","explicitness":"explicit","stability":"stable","confidence":0.99,"evidence_ids":["ev_03"],"first_seen":"2026-04-09","last_seen":"2026-04-09"}
+```
+
+Step 2. Build the graph outputs.
+
+```bash
+meos graph build
+```
+
+This writes:
+
+- `SKILL/runtime/graph/owner-graph.json`
+- `SKILL/runtime/graph/alignment-packet.json`
+- `SKILL/runtime/graph/owner-graph.html`
+- `SKILL/runtime/graph/index.html`
+
+It also prints:
+
+- the detected skill root
+- the claims source path
+- the generated HTML file path
+- the next preview command
+- the local preview URL
+
+Step 3. Start the local preview server.
+
+```bash
+meos graph serve
+```
+
+By default this serves:
+
+```text
+http://127.0.0.1:20998/
+```
+
+Step 4. Open the page in a browser.
+
+Open:
+
+```text
+http://127.0.0.1:20998/
+```
+
+The page includes:
+
+- the owner-centric graph view
+- filters for dimension and stability
+- search over claims and scopes
+- a compiled alignment packet
+- the raw claim list for inspection
+
+Step 5. Stop the preview server.
+
+Press `Ctrl+C` in the terminal where `meos graph serve` is running.
+
+Step 6. Direct file-open fallback.
+
+The generated HTML is self-contained, so this also works when you do not want a local server:
+
+```text
+SKILL/runtime/graph/owner-graph.html
+```
+
+Step 7. Empty or missing claims behavior.
+
+If `SKILL/evidence/claims.jsonl` does not exist yet, `meos graph build` still generates an empty preview shell and prints a note explaining that no claim ledger was found.
+
+If you want a different host or port:
+
+```bash
+meos graph serve --host 127.0.0.1 --port 20998
+```
 
 ### Install from the repository
 

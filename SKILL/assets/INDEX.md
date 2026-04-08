@@ -19,3 +19,4 @@ This file is the human-readable index for promoted long-term assets.
 - load only the categories relevant to the current task
 - update assets conservatively
 - keep `corrections/` authoritative when conflicts appear
+- treat assets as the canonical prose layer and the person graph as the complementary structured layer

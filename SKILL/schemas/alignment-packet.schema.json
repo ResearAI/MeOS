@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MeOS Alignment Packet",
+  "type": "object",
+  "required": [
+    "tone",
+    "reasoning_style",
+    "workflow_style",
+    "output_preferences",
+    "constraints"
+  ],
+  "properties": {
+    "tone": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "reasoning_style": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "workflow_style": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "output_preferences": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "constraints": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "task_scoped_traits": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "active_scope": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "source_claim_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": true
+}

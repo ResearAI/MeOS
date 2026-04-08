@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>__GRAPH_TITLE__</title>
+  <style>
+    :root {
+      --bg: #f4efe7;
+      --panel: rgba(255, 250, 244, 0.88);
+      --panel-border: rgba(35, 32, 28, 0.1);
+      --ink: #1d1a16;
+      --muted: #665d55;
+      --line: rgba(35, 32, 28, 0.12);
+      --accent: #d06f39;
+      --shadow: 0 22px 60px rgba(44, 28, 13, 0.12);
+      --radius-lg: 24px;
+      --radius-md: 18px;
+      --radius-sm: 12px;
+      --font-sans: "Avenir Next", "Segoe UI", "Helvetica Neue", sans-serif;
+      --font-mono: "SFMono-Regular", "JetBrains Mono", "Menlo", monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      background:
+        radial-gradient(circle at top left, rgba(208, 111, 57, 0.18), transparent 26rem),
+        radial-gradient(circle at 84% 18%, rgba(41, 98, 255, 0.12), transparent 24rem),
+        linear-gradient(180deg, #f8f2e7 0%, #efe7db 100%);
+      color: var(--ink);
+      font-family: var(--font-sans);
+    }
+
+    body {
+      padding: 28px;
+    }
+
+    .shell {
+      max-width: 1520px;
+      margin: 0 auto;
+      display: grid;
+      gap: 20px;
+    }
+
+    .hero,
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--panel-border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .hero {
+      padding: 26px 28px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .eyebrow {
+      margin: 0 0 8px;
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-meta,
+    .hint,
+    .mini-note {
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .hero-meta {
+      margin: 10px 0 0;
+      max-width: 72ch;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: flex-end;
+      align-content: start;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(35, 32, 28, 0.08);
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .chip.mono {
+      font-family: var(--font-mono);
+      font-weight: 600;
+    }
+
+    .mono {
+      font-family: var(--font-mono);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.7fr) minmax(340px, 0.95fr);
+      gap: 20px;
+      align-items: start;
+    }
+
+    .panel {
+      padding: 18px;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: baseline;
+      margin-bottom: 14px;
+    }
+
+    .panel-title {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .field {
+      display: grid;
+      gap: 6px;
+    }
+
+    .field label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    select,
+    input,
+    button {
+      width: 100%;
+      border: 1px solid rgba(35, 32, 28, 0.12);
+      background: rgba(255, 255, 255, 0.85);
+      color: var(--ink);
+      border-radius: 12px;
+      padding: 11px 12px;
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .panel-header button {
+      width: auto;
+    }
+
+    .graph-stage {
+      border-radius: 22px;
+      border: 1px solid rgba(35, 32, 28, 0.08);
+      background:
+        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.8), rgba(249, 244, 237, 0.92));
+      overflow: hidden;
+      min-height: 680px;
+      position: relative;
+    }
+
+    svg {
+      width: 100%;
+      height: 680px;
+      display: block;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .legend .chip {
+      background: rgba(255, 255, 255, 0.92);
+    }
+
+    .stack {
+      display: grid;
+      gap: 20px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .stat-card {
+      padding: 14px;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(35, 32, 28, 0.08);
+      background: rgba(255, 255, 255, 0.74);
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .stat-value {
+      margin-top: 6px;
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
+
+    .list {
+      display: grid;
+      gap: 10px;
+      max-height: 520px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .claim-card {
+      padding: 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(35, 32, 28, 0.08);
+      background: rgba(255, 255, 255, 0.78);
+      cursor: pointer;
+      transition: transform 140ms ease, border-color 140ms ease, box-shadow 140ms ease;
+    }
+
+    .claim-card:hover {
+      transform: translateY(-1px);
+      border-color: rgba(208, 111, 57, 0.32);
+      box-shadow: 0 14px 28px rgba(48, 31, 16, 0.08);
+    }
+
+    .claim-card.active {
+      border-color: rgba(208, 111, 57, 0.62);
+      box-shadow: 0 18px 36px rgba(48, 31, 16, 0.12);
+    }
+
+    .claim-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .claim-title {
+      font-size: 1rem;
+      font-weight: 800;
+      line-height: 1.35;
+    }
+
+    .claim-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #fff;
+    }
+
+    .badge.neutral {
+      background: #5f6773;
+    }
+
+    .claim-tail {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .section-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .section-card {
+      border-radius: 16px;
+      padding: 14px;
+      border: 1px solid rgba(35, 32, 28, 0.08);
+      background: rgba(255, 255, 255, 0.72);
+    }
+
+    .section-card h3 {
+      margin: 0 0 10px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .token-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .token {
+      display: inline-flex;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(35, 32, 28, 0.08);
+      background: rgba(255, 255, 255, 0.9);
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .empty-state {
+      padding: 20px;
+      border-radius: 18px;
+      border: 1px dashed rgba(35, 32, 28, 0.2);
+      background: rgba(255, 255, 255, 0.55);
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .footer-note {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--muted);
+      word-break: break-word;
+    }
+
+    .node-label {
+      font-size: 12px;
+      font-weight: 700;
+      fill: #2a241f;
+      paint-order: stroke;
+      stroke: rgba(255, 255, 255, 0.88);
+      stroke-width: 4px;
+      stroke-linejoin: round;
+    }
+
+    .ring {
+      fill: none;
+      stroke: rgba(35, 32, 28, 0.06);
+      stroke-width: 1;
+      stroke-dasharray: 4 8;
+    }
+
+    .edge-line {
+      stroke-linecap: round;
+      transition: opacity 140ms ease, stroke-width 140ms ease;
+    }
+
+    @media (max-width: 1100px) {
+      body {
+        padding: 18px;
+      }
+
+      .layout,
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .toolbar {
+        grid-template-columns: 1fr;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      svg,
+      .graph-stage {
+        min-height: 560px;
+        height: 560px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">MeOS Local Graph Preview</p>
+        <h1 id="graph-title">Owner Graph</h1>
+        <p class="hero-meta" id="graph-meta"></p>
+      </div>
+      <div class="hero-actions">
+        <span class="chip mono" id="preview-url-chip"></span>
+        <span class="chip mono" id="graph-json-chip"></span>
+        <span class="chip mono" id="alignment-json-chip"></span>
+      </div>
+    </section>
+
+    <section class="layout">
+      <section class="panel">
+        <div class="panel-header">
+          <h2 class="panel-title">Owner-Centric Graph</h2>
+          <span class="mini-note" id="graph-focus-note"></span>
+        </div>
+        <div class="legend" id="dimension-legend"></div>
+        <div class="toolbar">
+          <div class="field">
+            <label for="dimension-filter">Dimension</label>
+            <select id="dimension-filter"></select>
+          </div>
+          <div class="field">
+            <label for="stability-filter">Stability</label>
+            <select id="stability-filter">
+              <option value="all">All stability levels</option>
+              <option value="stable">Stable only</option>
+              <option value="candidate">Candidate only</option>
+              <option value="weak">Weak only</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="search-input">Search</label>
+            <input id="search-input" type="search" placeholder="Search claim text, scope, or node label" />
+          </div>
+        </div>
+        <div class="graph-stage">
+          <svg id="graph-canvas" viewBox="0 0 960 680" aria-label="MeOS owner graph"></svg>
+        </div>
+      </section>
+
+      <aside class="stack">
+        <section class="panel">
+          <div class="panel-header">
+            <h2 class="panel-title">Stats</h2>
+            <span class="mini-note" id="stats-note"></span>
+          </div>
+          <div class="stats-grid" id="stats-grid"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <h2 class="panel-title">Alignment Packet</h2>
+            <span class="mini-note">Compiled from stable claims</span>
+          </div>
+          <div class="section-list" id="alignment-sections"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <h2 class="panel-title">Claims</h2>
+            <button id="clear-focus-button" type="button">Clear focus</button>
+          </div>
+          <div class="list" id="claim-list"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <h2 class="panel-title">Preview Tips</h2>
+          </div>
+          <div class="section-card">
+            <div class="hint">
+              This HTML is self-contained, so direct file open works. To get a stable local URL for browser refresh, run the command below and open the preview address.
+            </div>
+            <div class="token-list" style="margin-top: 12px;">
+              <span class="token mono" id="serve-command-token"></span>
+              <span class="token mono" id="root-url-token"></span>
+            </div>
+            <p class="footer-note" id="source-note"></p>
+          </div>
+        </section>
+      </aside>
+    </section>
+  </div>
+
+  <script>
+    const GRAPH_DATA = __GRAPH_DATA__;
+    const ALIGNMENT_PACKET = __ALIGNMENT_DATA__;
+    const GRAPH_JSON_FILENAME = "__GRAPH_JSON_FILENAME__";
+    const ALIGNMENT_JSON_FILENAME = "__ALIGNMENT_JSON_FILENAME__";
+    const PREVIEW_URL = "__PREVIEW_URL__";
+    const SERVE_COMMAND = "__SERVE_COMMAND__";
+
+    const DIMENSION_COLORS = {
+      role: "#e57a44",
+      interest: "#c95b73",
+      preference: "#1c8c72",
+      behavior: "#2c6ed5",
+      workflow: "#7b5ad9",
+      principle: "#d19b2f",
+      constraint: "#b24343",
+      knowledge: "#177e89",
+      taste: "#8a4fff",
+      owner: "#111111",
+      subject: "#4f5f73",
+      unknown: "#7f8b99"
+    };
+
+    const DIMENSION_ORDER = {
+      role: 0,
+      interest: 1,
+      preference: 2,
+      behavior: 3,
+      workflow: 4,
+      principle: 5,
+      constraint: 6,
+      knowledge: 7,
+      taste: 8
+    };
+
+    const STABILITY_ORDER = {
+      stable: 0,
+      candidate: 1,
+      weak: 2
+    };
+
+    const state = {
+      dimension: "all",
+      stability: "all",
+      search: "",
+      activeClaimId: null,
+      activeNodeId: null
+    };
+
+    const graphNodes = new Map((GRAPH_DATA.nodes || []).map((node) => [node.id, node]));
+    const graphEdges = new Map((GRAPH_DATA.edges || []).map((edge) => [edge.id, edge]));
+    const allClaims = [...(GRAPH_DATA.claims || [])].sort(sortClaims);
+
+    function humanize(value) {
+      return String(value || "")
+        .replaceAll("_", " ")
+        .replaceAll("-", " ")
+        .replaceAll("::", ": ")
+        .replaceAll(":", ": ")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function sortClaims(a, b) {
+      const stabilityDelta = (STABILITY_ORDER[a.stability] ?? 99) - (STABILITY_ORDER[b.stability] ?? 99);
+      if (stabilityDelta !== 0) {
+        return stabilityDelta;
+      }
+      const dimensionDelta = (DIMENSION_ORDER[a.dimension] ?? 99) - (DIMENSION_ORDER[b.dimension] ?? 99);
+      if (dimensionDelta !== 0) {
+        return dimensionDelta;
+      }
+      return (b.confidence ?? 0) - (a.confidence ?? 0);
+    }
+
+    function claimText(claim) {
+      return `${humanize(claim.subject)} ${humanize(claim.predicate)} ${humanize(claim.object)}`.trim();
+    }
+
+    function claimMatchesSearch(claim, query) {
+      if (!query) {
+        return true;
+      }
+      const haystack = [
+        claim.id,
+        claim.subject,
+        claim.dimension,
+        claim.predicate,
+        claim.object,
+        claim.scope,
+        ...(claim.evidence_ids || [])
+      ].join(" ").toLowerCase();
+      return haystack.includes(query);
+    }
+
+    function getVisibleClaims() {
+      const query = state.search.trim().toLowerCase();
+      return allClaims.filter((claim) => {
+        if (state.dimension !== "all" && claim.dimension !== state.dimension) {
+          return false;
+        }
+        if (state.stability !== "all" && claim.stability !== state.stability) {
+          return false;
+        }
+        if (state.activeNodeId) {
+          const edge = graphEdges.get(claim.id);
+          if (!edge || (edge.source !== state.activeNodeId && edge.target !== state.activeNodeId)) {
+            return false;
+          }
+        }
+        return claimMatchesSearch(claim, query);
+      });
+    }
+
+    function confidenceLabel(value) {
+      return `${Math.round((Number(value || 0) || 0) * 100)}%`;
+    }
+
+    function badgeHtml(text, color) {
+      return `<span class="badge" style="background:${color}">${escapeHtml(text)}</span>`;
+    }
+
+    function escapeHtml(text) {
+      return String(text)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#39;");
+    }
+
+    function renderHeader() {
+      const meta = GRAPH_DATA.metadata || {};
+      document.getElementById("graph-title").textContent = `Owner Graph: ${humanize(GRAPH_DATA.owner_id || "owner")}`;
+      document.getElementById("graph-meta").textContent =
+        `Generated ${GRAPH_DATA.generated_at || "unknown time"} with ${meta.claim_count || 0} claims, ${meta.node_count || 0} nodes, and ${meta.edge_count || 0} edges.`;
+      document.getElementById("preview-url-chip").textContent = PREVIEW_URL;
+      document.getElementById("graph-json-chip").textContent = GRAPH_JSON_FILENAME;
+      document.getElementById("alignment-json-chip").textContent = ALIGNMENT_JSON_FILENAME;
+      document.getElementById("serve-command-token").textContent = SERVE_COMMAND;
+      document.getElementById("root-url-token").textContent = PREVIEW_URL;
+      document.getElementById("source-note").textContent = `Claims source: ${(meta.claims_source || "unknown")}`;
+    }
+
+    function renderLegend() {
+      const legend = document.getElementById("dimension-legend");
+      const dimensions = [...new Set(allClaims.map((claim) => claim.dimension))].sort(
+        (a, b) => (DIMENSION_ORDER[a] ?? 99) - (DIMENSION_ORDER[b] ?? 99)
+      );
+      legend.innerHTML = dimensions
+        .map((dimension) => {
+          const color = DIMENSION_COLORS[dimension] || DIMENSION_COLORS.unknown;
+          return `<span class="chip"><span style="width:10px;height:10px;border-radius:999px;background:${color};display:inline-block;"></span>${escapeHtml(humanize(dimension))}</span>`;
+        })
+        .join("");
+    }
+
+    function renderDimensionFilter() {
+      const select = document.getElementById("dimension-filter");
+      const dimensions = [...new Set(allClaims.map((claim) => claim.dimension))].sort(
+        (a, b) => (DIMENSION_ORDER[a] ?? 99) - (DIMENSION_ORDER[b] ?? 99)
+      );
+      const options = ['<option value="all">All dimensions</option>']
+        .concat(
+          dimensions.map(
+            (dimension) => `<option value="${escapeHtml(dimension)}">${escapeHtml(humanize(dimension))}</option>`
+          )
+        );
+      select.innerHTML = options.join("");
+      select.value = state.dimension;
+      select.addEventListener("change", (event) => {
+        state.dimension = event.target.value;
+        render();
+      });
+      document.getElementById("stability-filter").addEventListener("change", (event) => {
+        state.stability = event.target.value;
+        render();
+      });
+      document.getElementById("search-input").addEventListener("input", (event) => {
+        state.search = event.target.value;
+        render();
+      });
+      document.getElementById("clear-focus-button").addEventListener("click", () => {
+        state.activeClaimId = null;
+        state.activeNodeId = null;
+        render();
+      });
+    }
+
+    function renderStats(visibleClaims) {
+      const stableClaims = visibleClaims.filter((claim) => claim.stability === "stable");
+      const scopedClaims = visibleClaims.filter((claim) => claim.scope && claim.scope !== "global");
+      const dimensions = new Set(visibleClaims.map((claim) => claim.dimension));
+      const avgConfidence = visibleClaims.length
+        ? Math.round((visibleClaims.reduce((sum, claim) => sum + Number(claim.confidence || 0), 0) / visibleClaims.length) * 100)
+        : 0;
+      const stats = [
+        { label: "Visible claims", value: String(visibleClaims.length) },
+        { label: "Stable claims", value: String(stableClaims.length) },
+        { label: "Active dimensions", value: String(dimensions.size) },
+        { label: "Scoped claims", value: String(scopedClaims.length) },
+        { label: "Average confidence", value: `${avgConfidence}%` },
+        { label: "Evidence links", value: String(visibleClaims.reduce((sum, claim) => sum + (claim.evidence_ids || []).length, 0)) }
+      ];
+      document.getElementById("stats-grid").innerHTML = stats
+        .map(
+          (stat) => `
+            <div class="stat-card">
+              <div class="stat-label">${escapeHtml(stat.label)}</div>
+              <div class="stat-value">${escapeHtml(stat.value)}</div>
+            </div>
+          `
+        )
+        .join("");
+      document.getElementById("stats-note").textContent =
+        visibleClaims.length === allClaims.length ? "Showing the full local graph." : "Showing the current filtered slice.";
+    }
+
+    function renderAlignment() {
+      const sections = [
+        ["Tone", ALIGNMENT_PACKET.tone || []],
+        ["Reasoning style", ALIGNMENT_PACKET.reasoning_style || []],
+        ["Workflow style", ALIGNMENT_PACKET.workflow_style || []],
+        ["Output preferences", ALIGNMENT_PACKET.output_preferences || []],
+        ["Constraints", ALIGNMENT_PACKET.constraints || []],
+        ["Task-scoped traits", ALIGNMENT_PACKET.task_scoped_traits || []]
+      ];
+      const container = document.getElementById("alignment-sections");
+      container.innerHTML = sections
+        .map(([title, items]) => {
+          if (!items.length) {
+            return `
+              <section class="section-card">
+                <h3>${escapeHtml(title)}</h3>
+                <div class="empty-state">No stable claims compiled into this section yet.</div>
+              </section>
+            `;
+          }
+          return `
+            <section class="section-card">
+              <h3>${escapeHtml(title)}</h3>
+              <div class="token-list">
+                ${items.map((item) => `<span class="token">${escapeHtml(item)}</span>`).join("")}
+              </div>
+            </section>
+          `;
+        })
+        .join("");
+    }
+
+    function renderClaims(visibleClaims) {
+      const list = document.getElementById("claim-list");
+      if (!visibleClaims.length) {
+        list.innerHTML = `<div class="empty-state">No claims match the current filters. Clear focus or broaden the filters to inspect the full graph.</div>`;
+        return;
+      }
+
+      list.innerHTML = visibleClaims
+        .map((claim) => {
+          const isActive = claim.id === state.activeClaimId;
+          const color = DIMENSION_COLORS[claim.dimension] || DIMENSION_COLORS.unknown;
+          const edge = graphEdges.get(claim.id);
+          const scopeText = claim.scope && claim.scope !== "global" ? claim.scope : "global";
+          return `
+            <article class="claim-card ${isActive ? "active" : ""}" data-claim-id="${escapeHtml(claim.id)}">
+              <div class="claim-head">
+                <div class="claim-title">${escapeHtml(claimText(claim))}</div>
+                ${badgeHtml(confidenceLabel(claim.confidence), "#5f6773")}
+              </div>
+              <div class="claim-meta">
+                ${badgeHtml(humanize(claim.dimension), color)}
+                ${badgeHtml(humanize(claim.stability), "#39424f")}
+                ${badgeHtml(scopeText, "#59616b")}
+              </div>
+              <div class="claim-tail">
+                Predicate: ${escapeHtml(humanize(claim.predicate))}<br />
+                Evidence ids: ${escapeHtml(String((claim.evidence_ids || []).length))}<br />
+                Connected node: ${escapeHtml(edge ? humanize((graphNodes.get(edge.target) || {}).label || edge.target) : "n/a")}
+              </div>
+            </article>
+          `;
+        })
+        .join("");
+
+      for (const card of list.querySelectorAll("[data-claim-id]")) {
+        card.addEventListener("click", () => {
+          const claimId = card.getAttribute("data-claim-id");
+          state.activeClaimId = state.activeClaimId === claimId ? null : claimId;
+          state.activeNodeId = null;
+          render();
+        });
+      }
+    }
+
+    function getGraphSlice(visibleClaims) {
+      const nodes = new Map();
+      const ownerId = GRAPH_DATA.owner_id || "owner";
+      const ownerNode = graphNodes.get(ownerId) || {
+        id: ownerId,
+        label: humanize(ownerId),
+        type: "owner",
+        dimension: "owner",
+        color: DIMENSION_COLORS.owner
+      };
+      nodes.set(ownerNode.id, ownerNode);
+
+      const edges = visibleClaims
+        .map((claim) => graphEdges.get(claim.id))
+        .filter(Boolean)
+        .sort((a, b) => sortClaims(a, b));
+
+      for (const edge of edges) {
+        const source = graphNodes.get(edge.source) || { id: edge.source, label: humanize(edge.source), type: "subject", color: DIMENSION_COLORS.subject };
+        const target = graphNodes.get(edge.target) || { id: edge.target, label: humanize(edge.target), type: "unknown", color: DIMENSION_COLORS.unknown };
+        nodes.set(source.id, source);
+        nodes.set(target.id, target);
+      }
+
+      return { ownerId, nodes: [...nodes.values()], edges };
+    }
+
+    function renderGraph(visibleClaims) {
+      const svg = document.getElementById("graph-canvas");
+      const { ownerId, nodes, edges } = getGraphSlice(visibleClaims);
+      const ownerNode = nodes.find((node) => node.id === ownerId) || nodes[0];
+      const otherNodes = nodes.filter((node) => node.id !== ownerId);
+      const positions = new Map();
+
+      positions.set(ownerNode.id, { x: 480, y: 330 });
+      otherNodes
+        .sort((a, b) => {
+          const dimensionDelta = (DIMENSION_ORDER[a.dimension || a.type] ?? 99) - (DIMENSION_ORDER[b.dimension || b.type] ?? 99);
+          if (dimensionDelta !== 0) {
+            return dimensionDelta;
+          }
+          return String(a.label).localeCompare(String(b.label));
+        })
+        .forEach((node, index) => {
+          const count = Math.max(otherNodes.length, 1);
+          const angle = (-Math.PI / 2) + ((Math.PI * 2) * index) / count;
+          const dimensionIndex = DIMENSION_ORDER[node.dimension || node.type] ?? 0;
+          const radius = 190 + (dimensionIndex % 3) * 58;
+          positions.set(node.id, {
+            x: 480 + Math.cos(angle) * radius,
+            y: 330 + Math.sin(angle) * radius
+          });
+        });
+
+      const rings = [160, 220, 280].map(
+        (radius) => `<circle class="ring" cx="480" cy="330" r="${radius}"></circle>`
+      ).join("");
+
+      const edgeMarkup = edges
+        .map((edge) => {
+          const source = positions.get(edge.source);
+          const target = positions.get(edge.target);
+          const color = DIMENSION_COLORS[edge.dimension] || DIMENSION_COLORS.unknown;
+          const active = state.activeClaimId === edge.id;
+          const dimmed = state.activeClaimId && state.activeClaimId !== edge.id;
+          const width = active ? 4.2 : 2.2;
+          const opacity = dimmed ? 0.18 : active ? 0.96 : 0.42;
+          return `<line class="edge-line" x1="${source.x}" y1="${source.y}" x2="${target.x}" y2="${target.y}" stroke="${color}" stroke-width="${width}" opacity="${opacity}"></line>`;
+        })
+        .join("");
+
+      const nodeMarkup = nodes
+        .map((node) => {
+          const position = positions.get(node.id);
+          const color = node.color || DIMENSION_COLORS[node.dimension || node.type] || DIMENSION_COLORS.unknown;
+          const isOwner = node.id === ownerId;
+          const isActiveNode = node.id === state.activeNodeId;
+          const relatedToFocus = !state.activeNodeId || edges.some(
+            (edge) =>
+              (edge.source === state.activeNodeId || edge.target === state.activeNodeId) &&
+              (edge.source === node.id || edge.target === node.id)
+          );
+          const opacity = state.activeNodeId && !isActiveNode && !relatedToFocus ? 0.28 : 1;
+          const radius = isOwner ? 28 : isActiveNode ? 16 : 13;
+          const labelDx = position.x >= 480 ? 18 : -18;
+          const labelAnchor = position.x >= 480 ? "start" : "end";
+          return `
+            <g data-node-id="${escapeHtml(node.id)}" style="cursor:pointer;opacity:${opacity}">
+              <circle cx="${position.x}" cy="${position.y}" r="${radius + 8}" fill="rgba(255,255,255,0.72)"></circle>
+              <circle cx="${position.x}" cy="${position.y}" r="${radius}" fill="${color}" stroke="rgba(255,255,255,0.88)" stroke-width="${isOwner ? 4 : 2.5}"></circle>
+              <text class="node-label" x="${position.x + labelDx}" y="${position.y + 4}" text-anchor="${labelAnchor}">${escapeHtml(humanize(node.label))}</text>
+            </g>
+          `;
+        })
+        .join("");
+
+      if (!visibleClaims.length) {
+        svg.innerHTML = `
+          <rect x="0" y="0" width="960" height="680" fill="rgba(255,255,255,0.52)"></rect>
+          <foreignObject x="120" y="230" width="720" height="220">
+            <div xmlns="http://www.w3.org/1999/xhtml" class="empty-state">
+              No graph edges match the current filters. Clear focus, reset the dimension filter, or remove the search term.
+            </div>
+          </foreignObject>
+        `;
+        document.getElementById("graph-focus-note").textContent = "No visible claims in the current slice.";
+        return;
+      }
+
+      svg.innerHTML = `<g>${rings}${edgeMarkup}${nodeMarkup}</g>`;
+      document.getElementById("graph-focus-note").textContent =
+        state.activeClaimId ? `Focused on claim ${state.activeClaimId}.` :
+        state.activeNodeId ? `Focused on node ${humanize(state.activeNodeId)}.` :
+        `Showing ${visibleClaims.length} claims in the current slice.`;
+
+      for (const element of svg.querySelectorAll("[data-node-id]")) {
+        element.addEventListener("click", () => {
+          const nodeId = element.getAttribute("data-node-id");
+          state.activeNodeId = state.activeNodeId === nodeId ? null : nodeId;
+          state.activeClaimId = null;
+          render();
+        });
+      }
+    }
+
+    function render() {
+      const visibleClaims = getVisibleClaims();
+      renderStats(visibleClaims);
+      renderGraph(visibleClaims);
+      renderClaims(visibleClaims);
+    }
+
+    renderHeader();
+    renderLegend();
+    renderDimensionFilter();
+    renderAlignment();
+    render();
+  </script>
+</body>
+</html>
